@@ -1,9 +1,9 @@
 {% extends 'colearning/base.html'%}
 
-{% block title%}Create New List {% endblock%}
+{% block title%}Create New Space {% endblock%}
 
 {% block content%}
-Create Page 
+Create Space 
 <form method = "post" action = "/create/">
     {% csrf_token %}
     {{form.as_ul}}

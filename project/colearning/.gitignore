@@ -17,7 +17,7 @@ db.sqlite3
 # macOS
 ._*
 .DS_Store
-.fseventsd
+.fseventsdæ
 .Spotlight-V100
 
 # Windows
