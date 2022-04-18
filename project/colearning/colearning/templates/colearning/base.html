@@ -36,10 +36,17 @@
     <div class = "sidenav">
         <a href = "/">Home</a>
         <a href = "/create">Create a new space</a>
-        <a href = "/2">Spaces</a>    
+        <a href = "/2">My spaces</a>    
     </div>
 
     <div id= "content", name="content", class = "main">
+        {% if messages%}
+            {% for message in messages%}
+                <div class = "alert alert-{{message.tags}}">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif%}
         {% block content%}
         {% endblock%}
     </div>
