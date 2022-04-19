@@ -1,0 +1,11 @@
+{% extends 'colearning/base.html'%}
+
+{% block title%} Help Page {% endblock%}
+
+{% block content%}
+Raise a ticket
+<form method = "post" action = "/create/">
+    {% csrf_token %}
+    <button type = "submit", name = "save">Submit</button>
+</form>
+{% endblock%}
