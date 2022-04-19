@@ -4,12 +4,15 @@ from .models import ToDoList, Item
 from .forms import CreateNewList
 
 
+
 def home(response):
     return render(response, "colearning/home.html", {})
 
-def index(response, id):
-    ls = ToDoList.objects.get(id = id)
-    return render(response, "colearning/space.html", {"ls":ls})
+def about(response):
+    return render(response, "colearning/about.html", {})
+
+def index(response):
+    return render(response, "colearning/space.html", {})
 
 def create(response):
     if response.method == "POST":
@@ -25,3 +28,5 @@ def create(response):
         form = CreateNewList()
     return render(response, "colearning/create.html", {"form":form})
 
+def help(response):
+    return render(response, "colearning/help.html", {})

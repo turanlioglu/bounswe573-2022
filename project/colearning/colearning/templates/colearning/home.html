@@ -5,5 +5,17 @@ CoLearn
 {% endblock%}
 
 {% block content%}
-<h1>CoLearn Home Page</h1>
-{% endblock%}
+    {% for post in spaces %}
+        <article class = "media content-section">
+            <div class = "media-body">
+                <div class = "article-metadata">
+                    <a class = "mr-2" href = "#">{{ post.author }}</a>
+                    <small class = "text-muted">{{ post.date_posted }}</small>
+                </div>
+                <h2><a class = "article-title" href = "#">{{ post.title }}</a></h2>
+                <p class = "article-content">{{ post.content}}</p>
+            </div>
+        </article>
+    {% endfor %}
+    <p>Don't have an account? Create one from <a href = "/register">here</a></p>
+{%endblock%}

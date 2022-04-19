@@ -16,18 +16,27 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 from . import views
-from register import views as v
+from user import views as v
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("<int:id>", views.index, name = "index"),
+    path("space/", views.index, name = "index"),
     path("", views.home, name = "home"),
+    path("about/", views.about, name = "about"),
     path("create/", views.create, name = "create"),
     path("register/", v.register, name = "register"),
     path("", include("django.contrib.auth.urls")),
-    path("login/", auth_views.LoginView.as_view(template_name = "register/login.html"), name = "login"),
-    path("logout/", auth_views.LogoutView.as_view(template_name = "register/logout.html"), name = "logout"),
-
+    path("login/", auth_views.LoginView.as_view(template_name = "user/login.html"), name = "login"),
+    path("logout/", auth_views.LogoutView.as_view(template_name = "user/logout.html"), name = "logout"),
+    path("profile/", v.profile, name = "profile"),
+    path("help/", views.help, name = "help")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
