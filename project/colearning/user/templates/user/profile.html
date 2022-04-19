@@ -1,0 +1,18 @@
+{% extends "colearning/base.html"%}
+
+{% block title%} My Profile {%endblock%}
+{% load crispy_forms_tags %}
+{% block content %}
+    {%csrf_token%}
+    <h2>Welcome to profile page</h2>
+ 
+    <div class = "content-section">
+        <div class = "media">
+            <img class = "rounded-circle account-img" src = "{{ user.profile.image.url }}">
+            <div class = "media-body">
+                <h2 class = "accounr-heading">{{ user.username }}</h2>
+                <p class = "text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock%}
