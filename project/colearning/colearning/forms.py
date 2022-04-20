@@ -5,3 +5,4 @@ class CreateNewList(forms.Form):
     message = forms.CharField(label = "Content", max_length = 250)
     sender = forms.EmailField()
     notification_needed = forms.BooleanField(required = False)
+

@@ -21,15 +21,17 @@ from django.conf.urls.static import static
 
 
 from . import views
+from .views import PostDetailView, PostCreateView
 from user import views as v
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name = "home"),
     path("space/", views.index, name = "index"),
-    path("", views.home, name = "home"),
+    path("post/<int:pk>/", PostDetailView.as_view(), name = "post_detail"),
     path("about/", views.about, name = "about"),
-    path("create/", views.create, name = "create"),
+    path("post/new/", PostCreateView.as_view(), name = "post_create"),
     path("register/", v.register, name = "register"),
     path("", include("django.contrib.auth.urls")),
     path("login/", auth_views.LoginView.as_view(template_name = "user/login.html"), name = "login"),

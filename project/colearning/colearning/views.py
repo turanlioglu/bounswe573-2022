@@ -1,12 +1,23 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import ToDoList, Item
+from django.views.generic import DetailView, CreateView
+from .models import Post, Item
 from .forms import CreateNewList
 
 
-
 def home(response):
-    return render(response, "colearning/home.html", {})
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(response, "colearning/home.html", context)
+
+class PostDetailView(DetailView):
+    model = Post
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ['space_name', 'title', 'content']
+
 
 def about(response):
     return render(response, "colearning/about.html", {})

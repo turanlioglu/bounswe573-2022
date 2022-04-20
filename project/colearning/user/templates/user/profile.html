@@ -4,15 +4,22 @@
 {% load crispy_forms_tags %}
 {% block content %}
     {%csrf_token%}
-    <h2>Welcome to profile page</h2>
+    <h2>Welcome!</h2>
  
     <div class = "content-section">
         <div class = "media">
-            <img class = "rounded-circle account-img" src = "{{ user.profile.image.url }}">
+            <img class = "square account-img" src = "{{ user.profile.image.url }}">
             <div class = "media-body">
                 <h2 class = "accounr-heading">{{ user.username }}</h2>
                 <p class = "text-secondary">{{ user.email }}</p>
             </div>
         </div>
+        <form method = "POST" class = "form-group" enctype = "multipart/form-data">
+            {% csrf_token %}
+            <legend class = "border-bottom mb-4">Profile Information</legend>
+            {{ user_form | crispy}}
+            {{ profile_form | crispy}}
+            <button type = "submit" class = "btn btn-success">Update</button>
+        </form>
     </div>
 {% endblock%}

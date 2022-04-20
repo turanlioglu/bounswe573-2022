@@ -1,16 +1,17 @@
 from django.db import models
 
 
-class ToDoList(models.Model):
-    name = models.CharField(max_length = 100)
+class Post(models.Model):
+    space_name = models.CharField(max_length = 20, default = "Unkown")
+    title = models.CharField(max_length = 100, default = "Unknown" )
+    content = models.TextField(default = "Blank")
 
-    def __sty__(self):
-        return self.name
-
-
+    def __str__(self):
+        return space_name.char
+        
 class Item(models.Model):
-    todolist = models.ForeignKey(ToDoList, on_delete = models.CASCADE)
-    text = models.CharField(max_length = 300)
+    post = models.ForeignKey(Post, on_delete = models.CASCADE)
+    text = models.CharField(max_length = 300, default = "Blank")
     complete = models.BooleanField()
 
     def __str__(self):
