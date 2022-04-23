@@ -26,7 +26,7 @@ def profile(response):
             user_form.save()
             profile_form.save()
             messages.success(response, f'Your account has been updated, you can now login!')
-            return redirect("/profile")
+            return redirect("profile/")
     else:
         user_form = UserProfileForm(instance = response.user)
         profile_form = ProfileUpdateForm(instance = response.user.profile)

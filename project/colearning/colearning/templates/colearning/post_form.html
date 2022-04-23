@@ -5,15 +5,15 @@
 
 {% block content%}
     <div class = "content-section">
-        <form method = "POST" class = "form-group">
+        <form method = "POST">
             {% csrf_token %}
-            <legend class = "border-bottom mb-4">New Post</legend>
-            {{form | crispy}}
-            <button type = "submit" class = "btn btn-success">Send</button>
+            <fieldset class = "form-group">
+                <legend class = "border-bottom mb-4">Posts</legend>
+                {{ form | crispy }}
+            </fieldset>
+            <div class = "form-group">
+                <button class = "btn btn-outline-info" type = "submit">Send</button>
+            </div>
         </form>
-        <div class = "border-top pt-3">
-            <small class = "text-muted">
-            </small>
-        </div>
     </div>
 {%endblock%}

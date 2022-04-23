@@ -21,22 +21,25 @@ from django.conf.urls.static import static
 
 
 from . import views
-from .views import PostDetailView, PostCreateView
+from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView
 from user import views as v
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name = "home"),
     path("space/", views.index, name = "index"),
-    path("post/<int:pk>/", PostDetailView.as_view(), name = "post_detail"),
+    path("", PostListView.as_view(), name = "home"),
     path("about/", views.about, name = "about"),
-    path("post/new/", PostCreateView.as_view(), name = "post_create"),
     path("register/", v.register, name = "register"),
-    path("", include("django.contrib.auth.urls")),
+    path("profile/", v.profile, name = "profile"),
     path("login/", auth_views.LoginView.as_view(template_name = "user/login.html"), name = "login"),
     path("logout/", auth_views.LogoutView.as_view(template_name = "user/logout.html"), name = "logout"),
-    path("profile/", v.profile, name = "profile"),
+    path("post/<int:pk>/", PostDetailView.as_view(), name = "post_detail"),
+    path("post/new/", PostCreateView.as_view(), name = "post_create"),
+    path("post/<int:pk>/update/", PostUpdateView.as_view(), name = "post_update"),
+    path("post/<int:pk>/delete/", PostDeleteView.as_view(), name = "post_delete"),
+    path("user<str:username>/", UserPostListView.as_view(), name = "user_posts"),
+    path("", include("django.contrib.auth.urls")),
     path("help/", views.help, name = "help")
 ]
 
