@@ -7,16 +7,6 @@ from .models import Post
 from .forms import CreateNewList
 
 
-
-posts = [
-    {
-        'author': 'erdemturanlioglu',
-        'title': 'new post 1',
-        'content': 'first post',
-        'date_posted': 'April 23, 2022'
-    }
-]
-
 def home(response):
     context = {
         'posts': Post.objects.all()
@@ -28,7 +18,7 @@ class PostListView(ListView):
     template_name = "colearning/home.html"
     context_object_name = "posts"
     ordering = ["-date_posted"]
-    paginate_by = 7
+    paginate_by = 4
 
 class UserPostListView(ListView):
     model = Post
@@ -79,7 +69,18 @@ def about(response):
     return render(response, "colearning/about.html", {})
 
 def index(response):
+    return render(response, "colearning/index.html", {"id":id})
+
+def space(response):
     return render(response, "colearning/space.html", {})
+
+
+def space_details(response, id):
+    spaces = data["posts"]
+
+    selectedSpace = [post for post in posts if post["id"] == id]
+    
+    return render(response, "colearning/space_details.html", {"id": id})
 
 def create(response):
     if response.method == "POST":

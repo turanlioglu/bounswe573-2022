@@ -27,11 +27,11 @@ from user import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("space/", views.index, name = "index"),
     path("", PostListView.as_view(), name = "home"),
     path("about/", views.about, name = "about"),
     path("register/", v.register, name = "register"),
     path("profile/", v.profile, name = "profile"),
+    path("", include("django.contrib.auth.urls")),
     path("login/", auth_views.LoginView.as_view(template_name = "user/login.html"), name = "login"),
     path("logout/", auth_views.LogoutView.as_view(template_name = "user/logout.html"), name = "logout"),
     path("post/<int:pk>/", PostDetailView.as_view(), name = "post_detail"),
@@ -39,8 +39,8 @@ urlpatterns = [
     path("post/<int:pk>/update/", PostUpdateView.as_view(), name = "post_update"),
     path("post/<int:pk>/delete/", PostDeleteView.as_view(), name = "post_delete"),
     path("user<str:username>/", UserPostListView.as_view(), name = "user_posts"),
-    path("", include("django.contrib.auth.urls")),
-    path("help/", views.help, name = "help")
+    path("space/", views.space, name = "space"),
+    path("help/", views.help, name = "help"),
 ]
 
 if settings.DEBUG:
