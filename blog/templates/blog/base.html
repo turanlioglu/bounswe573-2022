@@ -25,7 +25,7 @@
             <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
                 <a class="nav-item nav-link" href="/">Home</a>
-                <a class="nav-item nav-link" href="/about">About</a>
+                <a class="nav-item nav-link" href="feed/">Blog</a>
               </div>
               <div class="navbar-nav">
                 {% if user.is_authenticated %}
@@ -58,8 +58,9 @@
               <h3>Hello {{user.username}} </h3>
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-light">My Spaces</li>
-                    <a class="nav-item nav-link" href="thread/">Latest Posts</a>
+                    <a class="nav-item nav-link" href="feed/">Latest Posts</a>
                     <li class="list-group-item list-group-item-light">Trends</li>
+                    <a class="nav-item nav-link" href="post/new/">Post Now</a>
                 </ul>
             </div>
           </div>
