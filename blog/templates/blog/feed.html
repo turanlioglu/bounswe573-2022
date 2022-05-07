@@ -1,5 +1,5 @@
 {% extends "blog/base.html" %}
-
+{% load hitcount_tags %}
 {% block content %}
 <title>Blog</title>
     {% for post in posts %}
@@ -9,11 +9,12 @@
             <div class="article-metadata">
                 <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                 <small class="text-muted">{{ post.date_posted|date:"F d, Y"}}</small> 
-                
+                View: {% get_hit_count for post %} <i class = "fa fa-eye" aria-hidden = "True"></i>
             </div>
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
             Space: <a class = "mr-2" href = "#"> {{ post.space }}</a>
+            <img src = "{{ uploads.image.url }}">
             </div>
         </article>
     {% endfor %}

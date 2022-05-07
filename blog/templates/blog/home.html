@@ -1,18 +1,33 @@
-{% extends "blog/base.html" %}
-{% block content %}
-    {% for post in posts %}
-        <article class="media content-section">
-            <img  class = "rounded-circle article-img" src = "{{ post.author.profile.image.url }}">
-            <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ post.author }}</a>
-                <small class="text-muted">{{ post.date_posted|date:"F d, Y"}}</small> 
-                
-            </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-            Space: <a class = "mr-2" href = "#"> {{ post.space }}</a>
-            </div>
-        </article>
-    {% endfor %}
-{% endblock content %}
+{% load static %}
+<title>MuN: Music Notifications</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
+
+<header class="header">
+  <div class="header-text">
+    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+  </div>
+ 
+</header>
+<section class="landing-section landing-main">
+  <div class="landing-section-content">
+    <h1 class="brand">CoLearn</h1>
+    <h2>
+      <span class="brand-text">Co</span>llaborative
+      <span class="brand-text">Learn</span>ing
+    </h2>
+    <p class="landing-main-text">
+        It is about time to enjoy studying! 
+        <br>
+        As part of a supportive community, you will feel again inspired and accountable to reach your goals. 
+        <br>
+        Together we go further!
+        <br>
+        <br>
+        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+    </p>
+  </div>
+</section>
+<section class="landing-section langing-features">
+    
+</section>
