@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: colums;
+    flex-direction: column;
 }
 
 .landing-main {
@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: center;
+    flex-direction: column;
     color: rgb(228, 227, 227);
 }
 

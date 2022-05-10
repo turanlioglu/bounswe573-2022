@@ -1,14 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Comment, Space, Category
+from .models import Post, Comment, Category
+from courses.models import Course
 from hitcount.views import HitCountDetailView
 from blog.forms import CommentForm
 from django.db.models import Q
 
 
 # Create your views here.
+@login_required
 def searchBlog(request):
     context = {}
     posts = Post.objects.all()
@@ -30,6 +33,7 @@ def home(request):
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
 
+@login_required
 def feed(request):
     context = []
     posts = Post.objects.all()
@@ -41,6 +45,7 @@ def feed(request):
         'posts': posts,
     }
     return render(request, 'blog/feed.html', context)
+
 
 class PostListView(ListView):
     model = Post
@@ -91,7 +96,7 @@ class PostDetailView(HitCountDetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'image', 'image_url', 'tags']
+    fields = ['course', 'title', 'content', 'image', 'image_url', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -100,7 +105,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'image', 'image_url', 'tags']
+    fields = ['course', 'title', 'content', 'image', 'image_url', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

@@ -1,11 +1,13 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from courses.models import Course
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from hitcount.models import HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 from taggit.managers import TaggableManager
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
 
@@ -27,11 +29,8 @@ class Comment(models.Model):
     def __str__(self):
         return self.user.username
 
-class Space(models.Model):
-    space = models.CharField(max_length = 25)
-
 class Post(models.Model):
-    spaces = models.ManyToManyField(Space)
+    course = models.ForeignKey(Course, null = True, blank = True, on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
     content = RichTextField()
     image = models.ImageField(null = True, blank = True, upload_to = 'media')

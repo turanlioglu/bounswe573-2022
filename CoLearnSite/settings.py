@@ -34,7 +34,10 @@ INSTALLED_APPS = [
     'CoLearnSite',
     'DB',
     'blog.apps.BlogConfig',
+    'courses.apps.CoursesConfig',
     'users.apps.UsersConfig',
+    'assignments.apps.AssignmentsConfig',
+    'resources.apps.ResourcesConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'hitcount',
     'taggit',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
