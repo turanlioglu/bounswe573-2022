@@ -1,0 +1,14 @@
+{% extends 'courses/course_base.html' %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+    <h1>Create new Course</h1>
+    <form action="{% url 'courses:create' %}" method="POST">
+        {% csrf_token %}
+        <fieldset class = "form-group">
+            <legend class = "border-bottom mb-4">Share your idea</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <input type="submit" value="Create" class="btn btn-success btn-lg">
+    </form>    
+{% endblock main_content %}
+    
