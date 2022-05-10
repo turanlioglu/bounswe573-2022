@@ -1,0 +1,28 @@
+{% extends 'resources/resource_base.html' %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+    
+<div class="container">
+    <h1>Resource</h1>
+
+    
+    {% if user.is_authenticated %}
+        <form method="POST" action="{% url 'resources:create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class = "form-group">
+                <legend class = "border-bottom mb-4">Share your idea</legend>
+                {{ form|crispy }}
+            </fieldset>
+            {{ form.name.errors }}
+            <input type="submit" value="Submit" class="btn btn-success btn-lg">
+        </form>
+    {% else %}
+        <div class="jumbotron">
+            <h2>You cannot create a resource</h2>
+        </div>
+    {% endif %}
+        
+</div>
+
+{% endblock main_content %}
+    
