@@ -26,7 +26,7 @@ class Comment(models.Model):
     post = models.ForeignKey('Post', on_delete = models.CASCADE)
     content = models.TextField()
 
-    def __str__(self):
+    def __str__(self): 
         return self.user.username
 
 class Post(models.Model):
@@ -37,9 +37,13 @@ class Post(models.Model):
     image_url = models.CharField(max_length = 100, default = None, null = True, blank = True)
     date_posted = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
+    likes = models.ManyToManyField(User, related_name = 'blog_posts')
     tags = TaggableManager()
     hit_count_generic = GenericRelation(HitCount, object_id_field = "object_pk", related_query_name = "hit_count_generic_relation")
 
+    def total_likes(self):
+        return self.likes.count()
+        
     def __str__(self):
         return self.title
 

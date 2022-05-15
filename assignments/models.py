@@ -19,7 +19,7 @@ class Assignment(models.Model):
         return self.assignment_name
 
     def get_absolute_url(self):
-        return reverse('assignments:detail', kwargs={'pk': self.pk})
+        return reverse('assignments:detail', kwargs={'pk': self.pk}) 
 
 class SubmitAssignment(models.Model):
     author = models.ForeignKey(User, related_name='assignment', on_delete=models.CASCADE)

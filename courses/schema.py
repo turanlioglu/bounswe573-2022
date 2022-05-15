@@ -27,7 +27,7 @@ class CourseInput(graphene.InputObjectType):
     id = graphene.ID()
     course_name = graphene.String()
     course_description = graphene.String()
-    teacher = graphene.Field(user_schema.UserInput)
+    user = graphene.Field(user_schema.UserInput)
     students = graphene.List(user_schema.UserInput)
 
 class CreateCourse(graphene.Mutation):
@@ -41,7 +41,7 @@ class CreateCourse(graphene.Mutation):
     def mutate(root, info, input=None):
         ok = True
         students = []
-        teacher = User.objects.get(pk=input.teacher.id)
+        user = User.objects.get(pk=input.user.id)
         for student_input in input.students:
             student = User.objects.get(pk=student_input.id)
             if student is None:
@@ -50,7 +50,7 @@ class CreateCourse(graphene.Mutation):
         course_instance = Course(
             course_name = input.course_name,
             course_description = input.course_description,
-            teacher = teacher
+            user = user
         )
         course_instance.save()
         course_instance.students.set(students)
@@ -68,7 +68,7 @@ class UpdateCourse(graphene.Mutation):
     def mutate(root, info, id, input=None):
         ok = False
         course_instance = Course.objects.get(pk=id)
-        teacher = User.objects.get(pk=input.teacher.id)
+        user = User.objects.get(pk=input.user.id)
         if course_instance:
             ok = True
             students = []
@@ -79,7 +79,7 @@ class UpdateCourse(graphene.Mutation):
                 students.append(student)
             course_instance.course_name = input.course_name
             course_instance.course_description = input.course_description
-            course_instance.teacher = teacher
+            course_instance.user = user
             course_instance.save()
             course_instance.students.set(students)
             return UpdateCourse(ok=ok, course=course_instance)

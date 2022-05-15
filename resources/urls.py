@@ -6,4 +6,4 @@ app_name = "resources"
 urlpatterns = [
     path('create/', views.CreateResource.as_view(), name="create"),
     path('delete/<int:pk>', views.delete_view, name='delete')
-]
+] 

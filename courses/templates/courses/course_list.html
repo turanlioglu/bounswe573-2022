@@ -4,20 +4,20 @@
 <div class="container">
   <div>
     <h1>All Courses</h1>
-
+    <br>
     {% if user.is_authenticated %}
-    <a
-      href="{% url 'courses:create' %}"
-      class="btn btn-lg btn-fill btn-success button-stretch"
-    >
+    <a href="{% url 'courses:create' %}" class="btn btn-lg btn-success">
       <i class="fa fa-plus-circle" aria-hidden="true"> Create New Course</i>
     </a>
     {% endif %}
+    <br>
+    <br>
+    <hr>
   </div>
     <div class="card-deck">
       {% for course_item in object_list %}
       <div>
-      <div class="card" style="width: 18rem">
+      <div class="card" style="width: 15">
         <div class="card-body">
           <h5 class="card-title">{{course_item.course_name}}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{course_item.teacher}}</h6>
@@ -33,12 +33,10 @@
             {% endif %}
           {% endif %}
 
-          <p>{{course_item.students.count}}
-                member{{course_item.students.count|pluralize}}</p>
-          
-              
+          <p>{{course_item.students.count}} member{{course_item.students.count|pluralize}}</p>
         </div>
       </div>
+      <br>
       </div>
       {% endfor %}
     </div>

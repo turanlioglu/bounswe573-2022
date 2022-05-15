@@ -7,6 +7,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404
 from users.models import User
 from courses.models import Course, Enrollment
+from blog.models import Post
 from assignments.models import Assignment
 from resources.models import Resource
 
@@ -31,9 +32,11 @@ class CourseDetail(generic.DetailView):
     def get_context_data(self,**kwargs):
         assignments = Assignment.objects.filter(course=self.kwargs['pk'])
         resources = Resource.objects.filter(course=self.kwargs['pk'])
+        posts = Post.objects.filter(course = self.kwargs['pk'])
         context = super(CourseDetail, self).get_context_data(**kwargs)
         context['assignments'] = assignments
         context['resources'] = resources
+        context['posts'] = posts
         return context
 
 class ListCourse(generic.ListView):

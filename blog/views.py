@@ -8,9 +8,24 @@ from courses.models import Course
 from hitcount.views import HitCountDetailView
 from blog.forms import CommentForm
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 # Create your views here.
+
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id = request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id = request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('post-detail', args = [str(pk)]))
+
 @login_required
 def searchBlog(request):
     context = {}
@@ -33,13 +48,15 @@ def home(request):
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
 
-@login_required
+@login_required 
 def feed(request):
     context = []
     posts = Post.objects.all()
     categories = Category.objects.all()
+    tags = Tag.objects.all()
     popular_posts = Post.objects.order_by('hit_count_generic')[:3]
     context = {
+        'tags': tags,
         'popular_posts': popular_posts,
         'categories': categories,
         'posts': posts,
@@ -58,7 +75,7 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'
     context_object_name = 'posts'
-    paginate_by = 5
+    paginate_by = 2
 
     def get_queryset(self):
         user = get_object_or_404(User, username = self.kwargs.get('username'))
@@ -86,11 +103,20 @@ class PostDetailView(HitCountDetailView):
         post_comments_count = Comment.objects.all().filter(post = self.object.id).count()
         post_comments = Comment.objects.all().filter(post = self.object.id)
         context = super().get_context_data(**kwargs)
+        error = get_object_or_404(Post, id = self.kwargs['pk'])
+        total_likes = error.total_likes()
+
+        liked = False
+        if error.likes.filter(id = self.request.user.id).exists():
+            liked = True
+
         context.update({
             'form': self.form,
             'post_comments': post_comments,
             'post_comments_count': post_comments_count,
             'similar_posts': similar_posts,
+            'total_likes': total_likes,
+            'liked': liked,
         })
         return context
 

@@ -5,7 +5,7 @@ from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-
+    user_type = forms.SelectMultiple()
 
     class Meta:
         model = User
