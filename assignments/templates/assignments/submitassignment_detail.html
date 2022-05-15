@@ -39,7 +39,7 @@
                 </div>
             {% else %}
                 
-                {% if submissions.assignment_ques.course.teacher.id == user.id %}
+                {% if submissions.assignment_ques.course.user.id == user.id %}
                     {% if submissions.graded == False %}
                         <div>
                             <a href="{% url 'assignments:grade' pk=submissions.pk %}" 

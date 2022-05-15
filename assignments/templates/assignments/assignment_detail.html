@@ -19,7 +19,9 @@
 
             <div class="submissions">
             <h3>Submissions</h3>
-            
+            <a href="{% url 'assignments:submit' %}" class="btn btn-secondary btn-lg">Submit assignment</a>
+            <br>
+            <br>
             {% for submissions in submitted %}
                 <a href="{% url 'assignments:submit_detail' pk=submissions.pk %}" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between">
@@ -30,6 +32,14 @@
                     {{submissions.description}}
                     </p>
                     <small>Start Date: {{submissions.submitted_date}}</small><br>
+                    <div class="grade">
+                        {% if submissions.graded == False %}
+                            <p>This assignment has not been graded yet.</p>
+                        {% else %}
+                            <p>This assignment has been graded.</p>
+                            <p>Grade: {{submissions.grade}}</p>
+                        {% endif %}
+                    </div>
                 </a>
             {% empty %}
                 <h6>No Submissions</h6>

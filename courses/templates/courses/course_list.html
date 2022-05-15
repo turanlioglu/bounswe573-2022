@@ -1,13 +1,13 @@
 {% extends 'courses/course_base.html' %} 
   
 {% block main_content %}
-<div class="container">
+<div class="container"> 
   <div>
-    <h1>All Courses</h1>
+    <h1>All Rooms</h1>
     <br>
     {% if user.is_authenticated %}
     <a href="{% url 'courses:create' %}" class="btn btn-lg btn-success">
-      <i class="fa fa-plus-circle" aria-hidden="true"> Create New Course</i>
+      <i class="fa fa-plus-circle" aria-hidden="true"> Create New Room</i>
     </a>
     {% endif %}
     <br>
@@ -20,7 +20,7 @@
       <div class="card" style="width: 15">
         <div class="card-body">
           <h5 class="card-title">{{course_item.course_name}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{course_item.teacher}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{course_item.user}}</h6>
           <p class="card-text">
             {{course_item.course_description}}
           </p>
@@ -41,5 +41,24 @@
       {% endfor %}
     </div>
   </div>
+  {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class = "btn btn-outline-info-mb-4" href = "?page=1">First</a>
+            <a class = "btn btn-outline-info-mb-4" href = "?page={{ page_obj.previous_page_number}}">Previous</a>
+        {% endif %} 
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class = "btn btn-info-mb-4" href = "?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class = "btn btn-outline-info-mb-4" href = "?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class = "btn btn-outline-info-mb-4" href = "?page={{ page_obj.nex_page_number}}">Next</a>
+        <a class = "btn btn-outline-info-mb-4" href = "?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %} 
+    {% endif %} 
   {% endblock main_content %}
 </div>

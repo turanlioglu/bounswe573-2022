@@ -1,10 +1,5 @@
 {% extends 'assignments/assignment_base.html' %}
-
-
-{% block title_name %}
-    CoLearn - Grade
-{% endblock title_name %}
-    
+{% load crispy_forms_tags %}
 
 {% block main_content %}
     
@@ -12,6 +7,9 @@
         <div class="container">
             <form method="POST">
                 {% csrf_token %}
+                <fieldset class = "form-group">
+                    {{ form|crispy }}
+                </fieldset>
                 <div>
                     <input type="submit" value="Grade" class="btn btn-success btn-lg">
                 </div>
