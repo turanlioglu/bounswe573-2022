@@ -30,7 +30,7 @@ class Comment(models.Model):
         return self.user.username
 
 class Post(models.Model):
-    course = models.ForeignKey(Course, null = True, blank = True, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, null = False, blank = True, on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
     content = RichTextField()
     image = models.ImageField(null = True, blank = True, upload_to = 'media')
