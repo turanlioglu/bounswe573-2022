@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-
+ 
 # Create your views here.
 
 def LikeView(request, pk):
@@ -32,14 +32,14 @@ def searchBlog(request):
     posts = Post.objects.all()
     if request.method == "GET":
         query = request.GET.get("search")
-        queryset = posts.filter(Q(title_icontains = query))
+        queryset = posts.filter(Q(title__icontains = query))
         total = queryset.count()
         context.update({
             'total': total,
             'query': query,
-            'posts': queryset
+            'posts': queryset,
         })
-        return render(request, "blog/search_blog.html", context)
+        return render(request, "blog/search_feed.html", context)
 
 
 def home(request):

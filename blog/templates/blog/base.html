@@ -62,45 +62,15 @@
           <div class="col-md-4">
             <div class="content-section">
               <ul class="list-group">
-                  <div class = "col-md-16">
-                    <div class = "sidebar px-8">
-                      <form class = "input-group" action = "{% url 'blog-feed' %}" method = "GET" role = "form">
-                        <input type = "text" name = "search" id = "" class = "form-control" placeholder = "Search">
-                        
-                      </form>
-                    </div>
-                  </div>
                   <a class="nav-item nav-link" href="{% url 'courses:list' %}">All Spaces</a>
                   <a class="nav-item nav-link" href="{% url 'courses:create' %}">Create Room</a>
                   <a class="nav-item nav-link" href="{% url 'post-create' %}">Post Now</a>
               </ul>
             </div>
             <br>
-            <h6 class = "sidebar-title">
-              Categories
-            </h6>
-            <div class = "col-md-8 col-xl-4">
-              <div class = "row link-color-default fs-14 lh-24">
-                {% for tag in tags %}
-                <div class col-6>{{tag}}</div>
-                {% endfor %}
-              </div>
             </div>
             <br>
             <br>
-            <div class = "col-md-16 col-xl-4">
-              <h6 class = "sidebar-title">Trends</h6>
-              {% for popular in popular_posts %}
-              <a class = "media text-default align-items-center mb-5" href = "{{ popular.post_detail}}">
-                {% if post.image %}
-                <img src = "{{ popular.image.url }}" alt = "popular-post-image" class = "rounded w-65px mr-4">
-                {% else %}
-                <img src = "{{ popular.image_url }}" alt = "popular-post-image" class = "rounded w-65px mr-4">
-                {% endif %}
-                <p class = "media-body small-2 lh-4 mb-0">{{ popular.title }}</p>
-              </a>
-              {% endfor %}
-            </div>
           </div>
         </div>
       </main>
