@@ -9,7 +9,7 @@ from hitcount.views import HitCountDetailView
 from blog.forms import CommentForm
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
  
 # Create your views here.
@@ -145,8 +145,8 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = "{{ url 'post-detail'}}"
-
+    success_url = reverse_lazy('courses:list')
+ 
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
