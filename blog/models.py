@@ -29,6 +29,13 @@ class Comment(models.Model):
     def __str__(self): 
         return self.user.username
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, null = True, on_delete = models.CASCADE)
+    bio = RichTextField()
+    
+    def __str__(self):
+        return str(self.user)
+
 class Post(models.Model): 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
