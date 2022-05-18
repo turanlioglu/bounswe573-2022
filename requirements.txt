@@ -8,3 +8,4 @@ graphene-file-upload==1.2.2
 graphql-core==2.3.2
 graphql-relay==2.0.1
 psycopg2
+ckeditor

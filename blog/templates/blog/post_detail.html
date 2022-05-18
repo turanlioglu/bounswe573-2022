@@ -19,7 +19,7 @@
         </div>
         <h2 class="article-title">{{ object.title }}</h2>
         <p class="article-content">{{ object.content }}</p>
-        <br>
+        
         {% if post.image %}
         <div class = "text-center mt-8">
             <img src = "{{ post.image.url }}" style = "max-width:400px;max-height:500px;" alt= "featured-image" class = "rounded-md">
@@ -32,7 +32,7 @@
         {% endif %}
         <div class = "Tags gap-xy-2 text-center">
             {% for tag in post.tags.all %}
-            tags: <a href = "{% url 'search' %}" class = "badge-pill badge-secondaty">{{ tag }}</a>
+            <a href = "{% url 'search' %}" class = "badge-pill badge-secondaty">{{ tag }}</a>
             {% endfor %}
         </div>
         <br>

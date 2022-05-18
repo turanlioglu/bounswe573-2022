@@ -3,7 +3,7 @@
 
 {% block main_content %}
     
-    {% if user.is_authenticated and submissions.assignment_ques.course.user.id == user.id %}
+    {% if user.is_authenticated or submissions.assignment_ques.course.user.id == user.id %}
         <div class="container">
             <form method="POST">
                 {% csrf_token %}

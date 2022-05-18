@@ -29,8 +29,8 @@ class Comment(models.Model):
     def __str__(self): 
         return self.user.username
 
-class Post(models.Model):
-    course = models.ForeignKey(Course, null = False, blank = True, on_delete=models.CASCADE)
+class Post(models.Model): 
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
     content = RichTextField()
     image = models.ImageField(null = True, blank = True, upload_to = 'media')

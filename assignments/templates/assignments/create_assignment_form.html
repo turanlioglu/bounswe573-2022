@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
   
 {% block main_content %}
-
+<h5 class="mb-1">{{course.course_name}}</h5>
 <div class="container">
   <h1>Assignment</h1>
     <form method="POST" action="{% url 'assignments:create' %}">
@@ -10,8 +10,10 @@
       <fieldset class = "form-group">
         <legend class = "border-bottom mb-4">Share your idea</legend>
         {{ form|crispy }}
+        {{ form.media }}
     </fieldset>
       <input type="submit" value="Submit" class="btn btn-success btn-lg">
     </form>
+   
 </div>
 {% endblock main_content %}

@@ -13,18 +13,19 @@ from resources.models import Resource
 
 # Create your views here.
 class CreateCourse(LoginRequiredMixin, generic.CreateView):
-    fields = ('course_name', 'course_description')
+    fields = ('course_name', 'course_description', 'course_image')
     model = Course
 
     def get(self, request,*args, **kwargs):
-        self.object = None
-        context_dict = self.get_context_data()
-        context_dict.update(user = self.request.user)
+        self.object = None 
+        context_dict = self.get_context_data() 
+        context_dict.update(user = self.request.user) 
         return self.render_to_response(context_dict)
     
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(CreateCourse, self).form_valid(form)
+    
     
 class CourseDetail(generic.DetailView):
     model = Course

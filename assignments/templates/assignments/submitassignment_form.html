@@ -1,7 +1,7 @@
 {% extends 'assignments/assignment_base.html' %}
 {% load crispy_forms_tags %}
 {% block main_content %} 
-    {% if user.is_authenticated %}             
+    {% if user.is_authenticated %}            
         <div class="container">
             <h2>Submit Assignment</h2>
             <form action="{% url 'assignments:submit' %}" method="POST" enctype="multipart/form-data">
@@ -9,6 +9,7 @@
                 {{ form.name.errors }}
                 <fieldset class = "form-group">
                     {{ form|crispy }}
+                    {{ form.media }}
                 </fieldset>
                 {% if duedate >= time %}
                     <input type="submit" value="Submit" class="btn btn-warning btn-lg">

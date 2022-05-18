@@ -3,7 +3,7 @@
 {% block main_content %}
 <div class="container"> 
   <div>
-    <h1>All Rooms</h1>
+    <h1>Rooms</h1>
     <br>
     {% if user.is_authenticated %}
     <a href="{% url 'courses:create' %}" class="btn btn-lg btn-success">
@@ -20,9 +20,9 @@
       <div class="card" style="width: 15">
         <div class="card-body">
           <h5 class="card-title">{{course_item.course_name}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{course_item.user}}</h6>
-          <p class="card-text">
-            {{course_item.course_description}}
+          Owner: <h6 class="card-subtitle mb-2 text-muted">{{course_item.user}}</h6>
+          Description: <p class="card-text">
+            {{course_item.course_description}}</p>
           </p>
           <a href="{% url 'courses:detail' pk=course_item.pk %}" class="btn btn-primary card-link">More Info</a>
           {% if user.is_authenticated %}

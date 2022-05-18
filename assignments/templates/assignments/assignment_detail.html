@@ -30,6 +30,7 @@
                     <div class="grade">
                         {% if submissions.graded == False %}
                             <p>This assignment has not been graded yet.</p>
+                            <a href="{% url 'assignments:grade' pk=submissions.pk %}" class="btn btn-secondary btn-sm">Grade</a>
                         {% else %}
                             <p>This assignment has been graded.</p>
                             <p>Grade: {{submissions.grade}}</p>

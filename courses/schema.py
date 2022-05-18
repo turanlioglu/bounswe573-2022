@@ -50,7 +50,8 @@ class CreateCourse(graphene.Mutation):
         course_instance = Course(
             course_name = input.course_name,
             course_description = input.course_description,
-            user = user
+            user = user,
+            course_image = input.course_image,
         )
         course_instance.save()
         course_instance.students.set(students)

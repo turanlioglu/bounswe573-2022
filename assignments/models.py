@@ -3,6 +3,7 @@ from users.models import User
 from courses.models import Course
 from django.urls import reverse
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 from django.core.validators import MaxValueValidator, MinValueValidator
 import os
 from django.conf import settings
@@ -10,7 +11,7 @@ from django.conf import settings
 # Create your models here.
 class Assignment(models.Model):
     assignment_name = models.CharField(max_length=200, blank=False)
-    assignment_description = models.TextField(blank=False)
+    assignment_description = RichTextField()
     start_date = models.DateTimeField(default=timezone.now)
     due_date = models.DateTimeField(blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -24,7 +25,7 @@ class Assignment(models.Model):
 class SubmitAssignment(models.Model):
     author = models.ForeignKey(User, related_name='assignment', on_delete=models.CASCADE)
     topic = models.CharField(max_length=200, blank=False)
-    description = models.TextField(blank=False)
+    description = RichTextField()
     assignment_file = models.FileField(blank=False, upload_to='assignments')
     submitted_date = models.DateTimeField(default=timezone.now)
     assignment_ques = models.ForeignKey(Assignment, related_name="question", on_delete=models.CASCADE, null=True)

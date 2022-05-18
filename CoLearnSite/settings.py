@@ -142,7 +142,7 @@ CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'height': 300,
-        'width': 1000,
+        'width': 690,
     }
 }
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

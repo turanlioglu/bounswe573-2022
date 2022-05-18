@@ -1,18 +1,25 @@
 from django.db import models
 from django.urls import reverse
 from users.models import User
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class Course(models.Model):
-    course_name = models.CharField(max_length=200, null = True, blank = True)
-    course_description = models.TextField()
+    course_name = models.CharField(max_length=200)
+    course_description = RichTextField()
+    course_image = models.ImageField(blank=True, null=True, upload_to='course_thumbnails')
     user = models.ForeignKey(User, related_name="course", on_delete=models.CASCADE)
     students = models.ManyToManyField(User, through='Enrollment', related_name="student_course")
 
+    def courseImage(self):
+        if self.course_image:
+            return self.course_image._url
+        return ''
+        
     def __str__(self):
         return self.course_name
 
-    def get_absolute_url(self):
+    def get_absolute_url(self): 
         return reverse('courses:detail', kwargs={'pk': self.pk})
 
     class Meta:

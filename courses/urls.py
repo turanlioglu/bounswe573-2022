@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from courses import views
 
 app_name = "courses"
@@ -9,4 +11,7 @@ urlpatterns = [
     path('all/', views.ListCourse.as_view(), name="list"),
     path('enroll/<int:pk>/', views.EnrollCourse.as_view(), name='enroll'),
     path('unenroll/<int:pk>/', views.UnenrollCourse.as_view(), name='unenroll'),
-]
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

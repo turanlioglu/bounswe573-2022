@@ -122,7 +122,7 @@ class PostDetailView(HitCountDetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['course', 'title', 'content', 'image', 'image_url', 'tags']
+    fields = ['course', 'title', 'content', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -131,7 +131,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['course', 'title', 'content', 'image', 'image_url', 'tags']
+    fields = ['course', 'title', 'content', 'tags']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

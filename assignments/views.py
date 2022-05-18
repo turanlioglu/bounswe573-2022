@@ -22,7 +22,7 @@ class CreateAssignment(LoginRequiredMixin, generic.CreateView):
     template_name = 'assignments/create_assignment_form.html'
 
     def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
+        kwargs = super().get_form_kwargs() 
         kwargs['user'] = self.request.user
         return kwargs
 
@@ -44,7 +44,6 @@ class SubmitAssignmentView(LoginRequiredMixin, generic.CreateView):
     form_class = SubmitAssignmentForm
     template_name = 'assignments/submitassignment_form.html'
     select_related = ('author', 'assignment_ques')
-    # success_url = reverse('assignments:submit_detail')
 
     def get_context_data(self, **kwargs):
         assignments = Assignment.objects.filter(pk=self.request.session.get('assignment'))
@@ -86,7 +85,6 @@ class AssignmentDetail(LoginRequiredMixin, generic.DetailView):
         submitassignment = SubmitAssignment.objects.filter(assignment_ques=self.kwargs['pk'])
         context['submitted'] = submitassignment
         self.request.session['assignment'] = self.kwargs['pk']
-        # print(self.request.session['assignment'])
         return context
 
 

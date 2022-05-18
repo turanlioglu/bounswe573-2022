@@ -78,7 +78,6 @@ class CreateAssignment(graphene.Mutation):
             assignment_description=input.assignment_description,
             start_date=input.start_date,
             due_date=input.due_date,
-            course=course,
         )
         assignment_instance.save()
         return CreateAssignment(ok=ok, assignment=assignment_instance)
