@@ -28,6 +28,8 @@
                     <p class="mb-1">
                     {{submissions.description}}
                     </p>
+                    <br>
+                    <hr>
                     <small>Start Date: {{submissions.submitted_date}}</small><br>
                     <div class="grade">
                         {% if submissions.graded == False %}
@@ -35,7 +37,7 @@
                             <a href="{% url 'assignments:grade' pk=submissions.pk %}" class="btn btn-secondary btn-sm">Grade</a>
                         {% else %}
                             <p>This assignment has been graded.</p>
-                            <p>Grade: {{submissions.grade}}</p>
+                            Grade: {{submissions.grade}}
                         {% endif %}
                     </div>
                 </a>
