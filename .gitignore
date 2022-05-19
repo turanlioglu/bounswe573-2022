@@ -13,14 +13,12 @@ env/
 venv/ 
 ENV/ 
 env.bak/ 
-venv.bak/ 
+venv.bak/
 
 # celery 
 celerybeat-schedule.* 
 
-
-# Jupyter Notebook 
-.ipynb_checkpoints 
+.pyc
 
 # Unit test / coverage reports 
 htmlcov/ 
