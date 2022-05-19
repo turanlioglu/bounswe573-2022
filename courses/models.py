@@ -17,7 +17,7 @@ class Course(models.Model):
         return ''
         
     def __str__(self):
-        return self.course_name 
+        return self.course_name
 
     def get_absolute_url(self): 
         return reverse('courses:detail', kwargs={'pk': self.pk})
