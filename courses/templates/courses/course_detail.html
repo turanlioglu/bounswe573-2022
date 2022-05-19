@@ -5,9 +5,7 @@
 <h4>Owner: @{{course.user}}</h4>
 <p>Description: {{course.course_description|safe}}</p>
 <hr>
-<div class = "text-center mt-8">
-  <img src = "{{ course.course_image.url }}" style = "max-width:400px;max-height:500px;" alt= "featured-image" class = "rounded-md">
-</div>
+
 <br>
 <hr>
 {% if user.is_authenticated %} {%if user in course.students.all%}
