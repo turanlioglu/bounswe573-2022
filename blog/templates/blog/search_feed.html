@@ -4,7 +4,7 @@
 <title>Blog</title>
     <div class = "col-md-16">
         <div class = "sidebar px-8">
-        <form class = "input-group" action = "{% url 'search' %}" method = "GET" role = "form">
+        <form class = "input-group" action = "{% url 'search_blog' %}" method = "GET" role = "form">
             <input type = "text" name = "search" id = "" class = "form-control" placeholder = "Search Posts">
             
         </form>
@@ -21,9 +21,11 @@
                 <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
                 <small class="text-muted">{{ post.date_posted|date:"F d, Y"}}</small> 
                 View: {% get_hit_count for post %} <i class = "fa fa-eye" aria-hidden = "True"></i>
+                | Likes : {{ post.total_likes }} | Comments: {{ post.comments_count }}
             </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
+            <h2>{{ post.title }}</h2>
+            <p class="article-content">{{ post.content|safe|slice:":190"}}</p>
+            <h5><a class="mr-2" href="{% url 'post-detail' post.id %}">More</a></h5>
             Room: <h5>{{ post.course }}</h5>
             <img src = "{{ uploads.image.url }}">
             </div>
