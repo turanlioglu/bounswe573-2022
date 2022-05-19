@@ -19,12 +19,12 @@ class Category(models.Model):
         class Meta:
             verbose_name = "Category"
             verbose_name_plural = "Categories"
-
+ 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     date_posted = models.DateField(auto_now_add = True)
     post = models.ForeignKey('Post', on_delete = models.CASCADE)
-    content = models.TextField()
+    content = RichTextField()
 
     def __str__(self): 
         return self.user.username
@@ -37,7 +37,7 @@ class UserProfile(models.Model):
         return str(self.user)
 
 class Post(models.Model): 
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name="post", on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
     content = RichTextField()
     image = models.ImageField(null = True, blank = True, upload_to = 'media')
