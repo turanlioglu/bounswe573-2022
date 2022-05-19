@@ -5,18 +5,34 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views import generic
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 from users.models import User
 from courses.models import Course, Enrollment
 from blog.models import Post
 from assignments.models import Assignment
 from resources.models import Resource
+from django.db.models import Q
 
 # Create your views here.
+
+@login_required
+def searchCourse(request):
+    context = {}
+    courses = Course.objects.all()
+    if request.method == "GET":
+        blog_query = request.GET.get("search_course")
+        queryset = courses.filter(Q(course_name__icontains = blog_query))
+        context.update({
+            'blog_query': blog_query,
+            'courses': queryset,
+        })
+        return render(request, "courses/search_course.html", context)
+
 class CreateCourse(LoginRequiredMixin, generic.CreateView):
     fields = ('course_name', 'course_description', 'course_image')
     model = Course
-
-    def get(self, request,*args, **kwargs):
+ 
+    def get(self, request,*args, **kwargs): 
         self.object = None 
         context_dict = self.get_context_data() 
         context_dict.update(user = self.request.user) 
