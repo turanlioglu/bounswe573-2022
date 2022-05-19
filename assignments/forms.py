@@ -12,19 +12,19 @@ class GradeAssignmentForm(ModelForm):
         model = SubmitAssignment
         fields = ['grade']
 
-class CreateAssignmentForm(ModelForm): 
+class CreateAssignmentForm(ModelForm):
     class Meta:
         model = Assignment
         fields = ('assignment_name', 'assignment_description',
                   'due_date', 'course') 
         labels = {
-            'due_date': 'Due Date (yyyy-mm-dd HH:MM)'
+            'due_date': 'Due Date (yyyy-mm-dd HH:MM)' 
         }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-
+       
 
 class SubmitAssignmentForm(ModelForm):
     class Meta:
@@ -34,4 +34,5 @@ class SubmitAssignmentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         assignment = kwargs.pop('assignment_id')
-    
+        super().__init__(*args, **kwargs)
+       
