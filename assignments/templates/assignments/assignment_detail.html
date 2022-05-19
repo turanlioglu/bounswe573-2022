@@ -7,12 +7,14 @@
         <h6>Start Date: {{assignment.start_date}}</h6>
         <h6>Due Date: {{assignment.due_date}}</h6>
         
-        <p>Description: {{assignment.assignment_description}}</p>
+        <p>Description: {{assignment.assignment_description|safe}}</p>
+        <hr>
         {% if user.is_authenticated %}
             <a href="{% url 'assignments:update' pk=assignment.pk %}" class="btn btn-warning btn-lg">Update</a>
             <a href="{% url 'assignments:delete' pk=assignment.pk %}" class="btn btn-danger btn-lg">Delete</a>
 
             <div class="submissions">
+            <br>
             <h3>Submissions</h3>
             <a href="{% url 'assignments:submit' %}" class="btn btn-secondary btn-lg">Submit assignment</a>
             <br>
