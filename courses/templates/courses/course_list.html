@@ -5,6 +5,16 @@
   <div>
     <h1>Rooms</h1>
     <br>
+    <div class = "col-md-16">
+      <div class = "sidebar px-8">
+      <form class = "input-group" action = "{% url 'courses:search_course' %}" method = "GET" role = "form">
+          <input type = "text" name = "search_course" id = "" class = "form-control" placeholder = "Search Courses">
+          
+      </form>
+      </div>
+  </div>
+  <br>
+  <hr>
     {% if user.is_authenticated %}
     <a href="{% url 'courses:create' %}" class="btn btn-lg btn-success">
       <i class="fa fa-plus-circle" aria-hidden="true"> Create New Room</i>
