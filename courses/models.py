@@ -6,7 +6,7 @@ from ckeditor.fields import RichTextField
 # Create your models here.
 class Course(models.Model):
     course_name = models.CharField(max_length=200)
-    course_description = RichTextField()
+    course_description = models.TextField()
     course_image = models.ImageField(blank=True, null=True, upload_to='course_thumbnails')
     user = models.ForeignKey(User, related_name="course", on_delete=models.CASCADE)
     students = models.ManyToManyField(User, through='Enrollment', related_name="student_course")
