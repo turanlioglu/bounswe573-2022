@@ -1,4 +1,5 @@
 {% load static %}
+{% load hitcount_tags %}
 <title>CoLearn</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
@@ -29,34 +30,5 @@
           <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
       </p>
   </div>
-</section>
-<section class="landing-section langing-features">
-  {% block main_content %}
-  <div class="container">
-    <div>
-      <h1>All Courses</h1>
-      <a href="{% url 'courses:create' %}" class="btn btn-lg btn-fill btn-success button-stretch">
-        <i class="fa fa-plus-circle" aria-hidden="true"> Create New Course</i>
-      </a>
-    </div>
-      <div class="card-deck">
-        {% for course_item in object_list %} 
-        <div>
-          <div class="card" style="width: 18rem">
-            <div class="card-body">
-              <h5 class="card-title">{{course_item.course_name}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{course_item.teacher}}</h6>
-              <p class="card-text">
-                {{course_item.course_description}}
-              </p>
-              <a href="{% url 'courses:detail' pk=course_item.pk %}" class="btn btn-primary card-link">More Info</a>
-              <p>{{course_item.students.count}}
-                    member{{course_item.students.count|pluralize}}</p>   
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-  {% endblock main_content %}
-  </div>
+  This CoLearn platform is created for SWE 573 course at Bogazici University
 </section>
