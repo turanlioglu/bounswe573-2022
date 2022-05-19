@@ -5,8 +5,8 @@
             <h1>{{submissions.topic}}</h1>
             <h4>Submitted by: {{submissions.author}}</h4>
             <h6>Submitted On: {{submissions.submitted_date}}</h6>
-            <p>Description: {{submissions.description}}</p>
-            <p>Submission: {{submissions.assignment_file.name}}</p>
+            <p>Description: {{submissions.description|safe}}</p>
+            <p>Submission: {{submissions.assignment_file.name|slice:"20:"}}</p>
              
             <a href="{{submissions.assignment_file.url}}" class="btn btn-lg btn-primary" download>Download</a>
             <div class="grade">
