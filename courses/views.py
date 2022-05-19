@@ -29,7 +29,7 @@ def searchCourse(request):
         return render(request, "courses/search_course.html", context)
 
 class CreateCourse(LoginRequiredMixin, generic.CreateView):
-    fields = ('course_name', 'course_description', 'course_image')
+    fields = ('course_name', 'course_description')
     model = Course
  
     def get(self, request,*args, **kwargs): 
