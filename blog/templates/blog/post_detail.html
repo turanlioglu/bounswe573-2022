@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
 {% load hitcount_tags %}
 {% load embed_video_tags %}
+{% load crispy_forms_tags %}
 {% block content %}
 <title>Blog</title>
     <article class="media content-section">
@@ -77,7 +78,8 @@
                         <form method = "POST" action = "{% url 'post-detail' object.id %}">
                             {% csrf_token %}
                             <div class = "form-group">
-                                {{ form }}
+                                {{ form|crispy }}
+                                {{ form.media }}
                             </div>
                             <button class = "btn btn-primary btn-block" type = "submit">Comment</button>
                         </form>
