@@ -35,4 +35,5 @@ class SubmitAssignmentForm(ModelForm):
         user = kwargs.pop('user')
         assignment = kwargs.pop('assignment_id')
         super().__init__(*args, **kwargs)
-       
+        self.fields['assignment_ques'].queryset = self.fields['assignment_ques'].queryset.filter(pk=assignment)
+        self.fields['author'].queryset = self.fields['author'].queryset.filter(username=user.username)
