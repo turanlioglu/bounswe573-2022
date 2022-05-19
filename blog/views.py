@@ -86,6 +86,8 @@ class PostDetailView(HitCountDetailView):
     count_hit = True
     form = CommentForm()
 
+
+
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -99,7 +101,6 @@ class PostDetailView(HitCountDetailView):
             }))
     
     def get_context_data(self, **kwargs):
-        courses = Course.objects.all(course, id = self.kwargs['pk'])
         similar_posts = self.object.tags.similar_objects()[:3]
         post_comments_count = Comment.objects.all().filter(post = self.object.id).count()
         post_comments = Comment.objects.all().filter(post = self.object.id)
@@ -112,7 +113,6 @@ class PostDetailView(HitCountDetailView):
             liked = True
 
         context.update({
-            'course': courses,
             'form': self.form,
             'post_comments': post_comments,
             'post_comments_count': post_comments_count,
