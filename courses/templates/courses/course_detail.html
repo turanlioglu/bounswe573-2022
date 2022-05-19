@@ -41,7 +41,7 @@
         </div>
         <p class="mb-1">
           <div>
-            <p class="article-content">{{ post.content|slice:":250"}}<b>[...]</b></p>
+            <p class="article-content">{{ post.content|safe|slice:":190"}}<b>[...]</b></p>
             <a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</small>
           </div>
         </p>
@@ -76,13 +76,13 @@
     <ul class="list-group">
       {% for assignment in assignments %}
       <a href="{% url 'assignments:detail' pk=assignment.pk %}" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
+        <div class="d-flex w-300 justify-content-between">
           <h5 class="mb-1">{{assignment.assignment_name}}</h5>
+          <br>
         </div>
         <p class="mb-1">
-          {{assignment.assignment_description}}
+          {{assignment.assignment_description|safe}}
         </p>
-        <small>Start Date: {{assignment.start_date}}</small><br>
         <small>Due Date: {{assignment.due_date}} {{assignment.due_time}}</small>
       </a>
       {% empty %}
@@ -101,6 +101,8 @@
         </div>
         <p class="mb-1">
           Submission: {{resource.resource_file.name}}
+          <br>
+          <br>
           <a href="{{resource.resource_file.url}}" class="btn btn-sm btn-primary" download>Download</a>
         </p>
         
