@@ -24,7 +24,7 @@
                 | Likes : {{ post.total_likes }} | Comments: {{ post_comments_count }}
             </div>
             <h2>{{ post.title }}</h2>
-            <p class="article-content">{{ post.content|safe|slice:":190"}}</p>
+            <p class="article-content">{{ post.content|safe|slice:":100"}}</p>
             <h5><a class="mr-2" href="{% url 'post-detail' post.id %}">More</a></h5>
             <div>
                 Room: <h5>{{ post.course }}</h5>
