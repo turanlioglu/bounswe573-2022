@@ -98,7 +98,7 @@ DATABASES = {
      'NAME': 'CoLearn', # name of the database
      'USER': 'postgres',
      'PASSWORD': 'G2vLmhTXr3', # password of the user
-     'HOST': '127.0.0.1',
+     'HOST': 'django-colearn-dev.us-west-2.elasticbeanstalk.com',
      'PORT': '5432',
     }
 }
