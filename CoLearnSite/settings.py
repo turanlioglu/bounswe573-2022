@@ -30,6 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'django-colearn-dev.us-west-2.elasticbeanstalk.com',
+    '127.0.0.1'
 ]
 
 
