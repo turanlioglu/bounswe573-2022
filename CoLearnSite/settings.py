@@ -22,11 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-z2#z5@i8vewyjcdemmkwu+%w#b^%$*)t)2)s78t#_w#@uj9n_i'
-SECRET_KEY = getenv("SECRET_KEY")
+SECRET_KEY = 'django-insecure-z2#z5@i8vewyjcdemmkwu+%w#b^%$*)t)2)s78t#_w#@uj9n_i'
+#SECRET_KEY = getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv("IS_DEVELOPMENT", True)
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'django-colearn-dev.us-west-2.elasticbeanstalk.com',
