@@ -7,7 +7,7 @@ from PIL import Image
 # Create your models here.
 class Course(models.Model):
     course_name = models.CharField(max_length=200)
-    course_description = RichTextField()
+    course_description = models.TextField()
     user = models.ForeignKey(User, related_name="course", on_delete=models.CASCADE)
     students = models.ManyToManyField(User, through='Enrollment', related_name="student_course")
 
