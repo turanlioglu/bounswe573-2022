@@ -58,7 +58,7 @@ class CourseDetail(generic.DetailView):
 
 class ListCourse(generic.ListView):
     model = Course
-    paginate_by = 2
+    paginate_by = 3
 
 class EnrollCourse(LoginRequiredMixin, generic.RedirectView):
 
