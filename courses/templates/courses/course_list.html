@@ -32,7 +32,7 @@
           <h5 class="card-title">{{course_item.course_name}}</h5>
           Owner: <h6 class="card-subtitle mb-2 text-muted">{{course_item.user}}</h6>
           Description: <p class="card-text">
-            {{course_item.course_description}}</p>
+            {{course_item.course_description|safe}}</p>
           </p>
           <a href="{% url 'courses:detail' pk=course_item.pk %}" class="btn btn-primary card-link">More Info</a>
           {% if user.is_authenticated %}
