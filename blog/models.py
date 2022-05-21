@@ -53,8 +53,6 @@ class Post(models.Model):
     course = models.ForeignKey(Course, related_name="post", on_delete=models.CASCADE)
     title = models.CharField(max_length = 100)
     content = RichTextField()
-    image = models.ImageField(null = True, blank = True, upload_to = 'media')
-    image_url = models.CharField(max_length = 100, default = None, null = True, blank = True)
     date_posted = models.DateTimeField(default = timezone.now)
     author = models.ForeignKey(User, on_delete = models.CASCADE)
     likes = models.ManyToManyField(User, related_name = 'blog_posts')
