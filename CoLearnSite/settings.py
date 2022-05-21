@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-z2#z5@i8vewyjcdemmkwu+%w#b^%$*)t)2)s78t#_w#@uj9n_i
 DEBUG = getenv("IS_DEVELOPMENT", True)
 
 ALLOWED_HOSTS = [
-    #getenv("APP_HOST")
+    'django-colearn-dev.us-west-2.elasticbeanstalk.com',
 ]
 
 
