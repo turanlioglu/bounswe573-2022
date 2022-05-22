@@ -22,19 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-z2#z5@i8vewyjcdemmkwu+%w#b^%$*)t)2)s78t#_w#@uj9n_i'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'django-insecure-z2#z5@i8vewyjcdemmkwu+%w#b^%$*)t)2)s78t#_w#@uj9n_i'
+#SECRET_KEY = getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(os.environ.get('DEBUG', 0)))
+DEBUG = True
 
-ALLOWED_HOSTS = []
-ALLOWED_HOSTS.extend(
-    filter(
-        None,
-        os.environ.get('ALLOWED_HOSTS', '').split(','),
-    )
-)
+ALLOWED_HOSTS = [
+    'django-colearn-dev.us-west-2.elasticbeanstalk.com',
+    '127.0.0.1',
+
+]
+
 
 # Application definition
 
@@ -97,10 +96,11 @@ WSGI_APPLICATION = 'CoLearnSite.wsgi.application'
 DATABASES = {
   'default': {
      'ENGINE': 'django.db.backends.postgresql_psycopg2',
-     'NAME': os.environ.get('DB_NAME'),
-     'USER': os.environ.get('DB_USER'),
-     'PASSWORD': os.environ.get('DB_PASS'),
-     'HOST': os.environ.get('DB_HOST'),
+     'NAME': 'CoLearn', # name of the database
+     'USER': 'postgres',
+     'PASSWORD': 'G2vLmhTXr3', # password of the user
+     #'HOST': 'django-colearn-dev.us-west-2.elasticbeanstalk.com',
+     'HOST': '127.0.0.1',
      'PORT': '5432',
     }
 }
