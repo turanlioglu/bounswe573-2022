@@ -1,4 +1,4 @@
-FROM python:3.4
+FROM python:3.8.10
 # Ensure that Python outputs everything that's printed inside 
 # the application rather than buffering it
 ENV PYTHONUNBUFFERED 1
