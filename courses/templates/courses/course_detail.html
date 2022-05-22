@@ -39,7 +39,7 @@
         </div>
         <p class="mb-1">
           <div>
-            <p class="article-content">{{ post.content|safe|slice:":190"}}<b>[...]</b></p>
+            <p class="article-content">{{ post.content|safe|slice:":99"}}<b>[...]</b></p>
             <a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</small>
           </div>
         </p>
@@ -79,7 +79,7 @@
           <br>
         </div>
         <p class="mb-1">
-          {{assignment.assignment_description|safe}}
+          {{assignment.assignment_description|safe|slice:":100"}}
         </p>
         <small>Due Date: {{assignment.due_date}} {{assignment.due_time}}</small>
       </a>
