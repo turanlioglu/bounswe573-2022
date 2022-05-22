@@ -30,8 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'django-colearn-dev.us-west-2.elasticbeanstalk.com',
-    '127.0.0.1',
-    '0.0.0.0 '
 ]
 
 
@@ -99,8 +97,8 @@ DATABASES = {
      'NAME': 'CoLearn', # name of the database
      'USER': 'postgres',
      'PASSWORD': 'G2vLmhTXr3', # password of the user
-     'HOST': 'django-colearn-dev.us-west-2.elasticbeanstalk.com',
-     #'HOST': '127.0.0.1',
+     #'HOST': 'django-colearn-dev.us-west-2.elasticbeanstalk.com',
+     'HOST': '127.0.0.1',
      'PORT': '5432',
     }
 }

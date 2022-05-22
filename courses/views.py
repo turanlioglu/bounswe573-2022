@@ -19,11 +19,11 @@ from django.db.models import Q
 def searchCourse(request):
     context = {}
     courses = Course.objects.all()
-    if request.method == "GET":
-        blog_query = request.GET.get("search_course")
-        queryset = courses.filter(Q(course_name__icontains = blog_query))
+    if  request.method == "GET":
+        query = request.GET.get("search_course")
+        queryset = courses.filter(Q(course_name__icontains = query))
         context.update({
-            'blog_query': blog_query,
+            'query': query,
             'courses': queryset,
         })
         return render(request, "courses/search_course.html", context)
