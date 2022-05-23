@@ -1,14 +1,25 @@
-FROM python:3.8.10
-# Ensure that Python outputs everything that's printed inside 
-# the application rather than buffering it
-ENV PYTHONUNBUFFERED 1
-# Creation of the workdir
-RUN mkdir /code
+# pull official base image
+FROM python:3.10.1-alpine
+
+# set work directory
 WORKDIR /code
-# Add requirements.txt file to container
-ADD requirements.txt /code/
-# Install requirements
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install psycopg2 dependencies
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev musl-dev
+
+# install dependencies
+RUN apk update && apk add tk
+RUN apk add -u zlib-dev jpeg-dev gcc musl-dev
 RUN pip install --upgrade pip
-RUN pip install -r /code/requirements.txt
-# Add the current directory(the web folder) to Docker container
-ADD . /code/
+RUN apk add libffi-dev
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
+
+
+# copy project
+COPY . .
