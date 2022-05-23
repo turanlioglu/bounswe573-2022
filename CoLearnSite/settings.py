@@ -101,7 +101,7 @@ DATABASES = {
      'NAME': os.environ.get('DB_NAME'),
      'USER': os.environ.get('DB_USER'),
      'PASSWORD': os.environ.get('DB_PASS'),
-     'HOST': os.envireon.get('DB_HOST'),
+     'HOST': os.environ.get('DB_HOST'),
 
      #'ENGINE': 'django.db.backends.postgresql_psycopg2',
      #'NAME': 'CoLearn', # name of the database
