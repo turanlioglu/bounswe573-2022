@@ -14,8 +14,6 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/
-.env.prod
-.env.prod.db
 
 # celery 
 celerybeat-schedule.* 
