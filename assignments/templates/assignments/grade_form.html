@@ -3,7 +3,7 @@
 
 {% block main_content %}
     
-    {% if user.is_authenticated or submissions.assignment_ques.course.user.id == user.id %}
+    {% if user.is_authenticated and submissions.assignment_ques.course.user.id == user.id %}
         <div class="container">
             <form method="POST">
                 {% csrf_token %}
@@ -18,7 +18,7 @@
     {% else %}
         <div class="container">
             <div class="jumbotron">
-                <h2>You cannot grade this assignment.</h2>
+                <h2>You cannot feedback this challenge.</h2>
             </div>
         </div>
     {% endif %}
