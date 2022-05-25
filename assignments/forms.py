@@ -18,6 +18,8 @@ class CreateAssignmentForm(ModelForm):
         fields = ('assignment_name', 'assignment_description',
                   'due_date', 'course') 
         labels = {
+            'assignment_name': 'Name of the challenge',
+            'assignment_description': 'Challenge description',
             'due_date': 'Due Date (yyyy-mm-dd HH:MM)' 
         }
 
@@ -30,6 +32,12 @@ class SubmitAssignmentForm(ModelForm):
     class Meta:
         model = SubmitAssignment
         fields = ('topic', 'description', 'assignment_file', 'assignment_ques', 'author')
+
+        labels = {
+            'description': 'Please state your work clear and short',
+            'assignment_file': 'Your work',
+            'assignment_ques': 'Please choose the related challenge'
+        }
         
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
