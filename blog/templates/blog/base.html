@@ -17,7 +17,7 @@
     {% endif %}
     {% endblock title %}
 </head>
-<body>
+<body> 
     <header class = "site-header">
         <nav class = "navbar navbar-expand-md navbar-dark bg-steel fixed-top">
           <div class = "container">
@@ -78,7 +78,39 @@
                   <a class="nav-item nav-link" href="{% url 'courses:create' %}">Create Room</a>
               </ul>
             </div>
-            <br>
+            {% if user in user.course.all%}
+            <div class="content-section">
+              <ul class="list-group">
+                <h5>My rooms:</h5>
+                <hr>
+                {% for user in user.course.all %}
+                <div class = "col-6" >{{ user.course_name }}</div>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+            {{ student.course }}
+            <div class="content-section">
+              <ul class="list-group">
+                <h5>Enrolled rooms:</h5>
+                <hr>
+                {% for course in course.Enrollments %}
+                <div class = "col-16" >{{ course.course_name }}</div>
+                {% endfor %}
+              </ul>
+            </div>
+            {% if user in course.students.all %}
+            <div class="content-section">
+              <ul class="list-group">
+                <h5>Room contributors:</h5>
+                <hr>
+                {% for students in course.students.all %}
+                <div class = "col-6" >{{ students }}</div>
+                {% endfor %}
+              </ul>
+            {% endif %} 
+            </div>
+          </div>
             </div>
             {% endif %}
             <br>
