@@ -36,6 +36,12 @@ class UpdateAssignment(LoginRequiredMixin, generic.UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def test_func(self):
+        assignment = self.get_object() 
+        if self.request.user == assignment.user: 
+            return True
+        return False
+
 class DeleteAssignment(LoginRequiredMixin, generic.DeleteView):
     model = Assignment
     success_url = reverse_lazy('courses:list')
