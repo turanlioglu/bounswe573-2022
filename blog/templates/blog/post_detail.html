@@ -33,10 +33,13 @@
         {% endif %}
         <div class = "Tags gap-xy-2 text-center">
             {% for tag in post.tags.all %}
-            <a href = "{% url 'search_blog' %}" class = "badge-pill badge-secondaty">{{ tag }}</a>
+            <a> | {{ tag }} | </a>
             {% endfor %}
         </div>
         <br>
+        <hr>
+        Room: <h5>{{ post.course }}</h5>
+        <hr>
         <form action = "{% url 'like_post' post.pk%}" method = "POST">
             {% csrf_token %}
             {{ total_likes }} Likes
@@ -95,7 +98,7 @@
                 <div class = "border rounded">
                     <small class = "text-primary mt-4 p-4">{{ post.title }}</small>
                     <p class = "p-4">{{ post.content|safe|slice:":50"}}<b>[...]</b></p>
-                    <a href = "{% url 'post-detail' object.id %}" class = "p-4">Read More <i class = "mdi mdi-cheveron-right"></i></a>
+                    <a href = "{% url 'post-detail' post.id %}" class = "p-4">Read More <i class = "mdi mdi-cheveron-right"></i></a>
                     <div class = "border-top p-3 mt-3 d-flex">
                         <img src = "{{ object.author.profile.image.url }}" alt = "" style = "max-width:50px;max-height:50px;" class = "rounded-pii img-fluid mr-3">
                         <div class = "form-inline">
