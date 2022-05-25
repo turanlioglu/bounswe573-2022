@@ -1,10 +1,8 @@
 # pull official base image
 FROM python:3.10.1-alpine
 
-RUN useradd --create-home appuser
-WORKDIR /home/appuser
-USER appuser
-
+# set work directory
+WORKDIR /usr/src/app
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
