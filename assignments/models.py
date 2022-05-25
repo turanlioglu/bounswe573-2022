@@ -25,7 +25,7 @@ class Assignment(models.Model):
 class SubmitAssignment(models.Model):
     author = models.ForeignKey(User, related_name='assignment', on_delete=models.CASCADE)
     topic = models.CharField(max_length=200, blank=False)
-    description = RichTextField()
+    description = models.TextField()
     assignment_file = models.FileField(blank=False, upload_to='assignments')
     submitted_date = models.DateTimeField(default=timezone.now)
     assignment_ques = models.ForeignKey(Assignment, related_name="question", on_delete=models.CASCADE, null=True)
