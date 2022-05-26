@@ -1,0 +1,77 @@
+{% extends 'assignments/assignment_base.html' %}
+
+{% block main_content %}
+    <div class="container">
+        <h1>{{assignment.assignment_name}}</h1>
+        <h4>Course: {{assignment.course}}</h4>
+        <h6>Start Date: {{assignment.start_date}}</h6>
+        <h6>Due Date: {{assignment.due_date}}</h6>
+        
+        <p>Description: {{assignment.assignment_description|safe}}</p>
+        <hr>
+        {% if user.is_authenticated or submission.author.id == user.id %}
+            <a href="{% url 'assignments:update' pk=assignment.pk %}" class="btn btn-warning btn-lg">Update</a>
+            <a href="{% url 'assignments:delete' pk=assignment.pk %}" class="btn btn-danger btn-lg">Delete</a>
+
+            <div class="submissions">
+            <br>
+            <h3>Submissions</h3>
+            <a href="{% url 'assignments:submit' %}" class="btn btn-secondary btn-lg">Submit your work</a>
+            <br>
+            <br>
+            {% for submissions in submitted %}
+                <a href="{% url 'assignments:submit_detail' pk=submissions.pk %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{submissions.topic}}</h5>
+                    <small>{{submissions.author}}</small>
+                    </div>
+                    <p class="mb-1">
+                    {{submissions.description}}
+                    </p>
+                    <br>
+                    <hr>
+                    <small>Start Date: {{submissions.submitted_date}}</small><br>
+                    <br>
+                    <div class="grade">
+                        {% if submissions.graded == False %}
+                            {% if submission.author.id == user.id %}
+                            <a href="{% url 'assignments:grade' pk=submissions.pk %}" class="btn btn-secondary btn-sm">Grade</a>
+                            {% else %}
+                            <p>This challenge has not been controlled yet.</p>
+                            {% endif %}
+                        {% else %}
+                            <p>This challenge has been controlled.</p>
+                            Feedback score: {{submissions.grade}}
+                        {% endif %}
+                    </div>
+                </a>
+            {% empty %}
+                <h6>No submitted work so far :(</h6>
+            {% endfor %}
+            </div>
+                
+
+        {% else %}            
+            {% if assignment.course in course %}
+                {% for submissions in submitted %}
+                    {% if submissions.author.id == user.id %}
+                        <a href="{% url 'assignments:submit_detail' pk=submissions.pk %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{submissions.topic}}</h5>
+                            <small>{{submissions.author}}</small>
+                            </div>
+                            <p class="mb-1">
+                            {{submissions.description}}
+                            </p>
+                            <small>Start Date: {{submissions.submitted_date}}</small><br>
+                        </a>
+                    {% endif %}
+                {% empty %}
+                    <h6>No Submissions</h6>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock main_content %}
+    

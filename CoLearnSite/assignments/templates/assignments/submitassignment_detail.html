@@ -1,0 +1,46 @@
+{% extends 'assignments/assignment_base.html' %}
+{% load static %}
+{% block main_content %}
+    <div class="container">
+            <h1>{{submissions.topic}}</h1>
+            <h4>Submitted by: {{submissions.author}}</h4>
+            <h6>Submitted On: {{submissions.submitted_date}}</h6>
+            <p>Description: {{submissions.description|safe}}</p>
+            <p>Submission: {{submissions.assignment_file.name|slice:"20:"}}</p>
+             
+            <a href="{{submissions.assignment_file.url}}" class="btn btn-lg btn-primary" download>Download</a>
+            <div class="grade">
+
+            <br>
+            <br>
+            <hr>
+                {% if submissions.graded == False %}
+                    <p>This challenge has not been graded yet.</p>
+                {% else %}
+                    <p>This challenge has been graded.</p>
+                    <p>Feedback score: {{submissions.grade}}</p>
+                {% endif %}
+            </div>         
+            {% if user.is_authenticated and submissions.graded == False %}
+                <div>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <a href="{% url 'assignments:submit_delete' pk=submissions.pk %}" 
+                        class="btn btn-danger btn-lg">Delete</a>
+                    </form>
+                    
+                </div>
+            {% else %}
+                {% if submissions.assignment_ques.course.user.id == user.id %}
+                    {% if submissions.graded == False %}
+                        <div>
+                            <a href="{% url 'assignments:grade' pk=submissions.pk %}" 
+                            class="btn btn-success btn-lg">Give feedback</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+            {% endif %}
+    </div>
+{% endblock main_content %}
+    

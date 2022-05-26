@@ -1,0 +1,21 @@
+{% extends 'assignments/assignment_base.html' %}
+{% load crispy_forms_tags %}
+  
+{% block main_content %}
+
+<div class="container">
+  <h1>Challenges</h1>
+    <form method="POST" action="{% url 'assignments:create' %}">
+      {% csrf_token %} 
+      <fieldset class = "form-group">
+        <legend class = "border-bottom mb-4">Share your idea</legend>
+        Room name: {{asignment.course}}
+        <hr>
+        {{ form|crispy }}
+        {{ form.media }}
+    </fieldset>
+      <input type="submit" value="Submit" class="btn btn-success btn-lg">
+    </form>
+   
+</div>
+{% endblock main_content %}

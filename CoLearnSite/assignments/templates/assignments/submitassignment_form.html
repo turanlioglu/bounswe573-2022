@@ -1,0 +1,27 @@
+{% extends 'assignments/assignment_base.html' %}
+{% load crispy_forms_tags %}
+{% block main_content %} 
+{% if duedate < time %}
+<h2>Submission is closed.</h2>
+<h2>Please try to be faster for the next time :)</h2>
+{% endif %}
+{% if duedate >= time %}
+    {% if user.is_authenticated %}            
+        <div class="container">
+            <h2>Submit a challenge</h2>
+            <form action="{% url 'assignments:submit' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.name.errors }}
+                <fieldset class = "form-group">
+                    {{ form|crispy }}
+                    {{ form.media }}
+                </fieldset>
+                    <input type="submit" value="Submit" class="btn btn-warning btn-lg">
+            </form>
+            <ul>
+            </ul> 
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock main_content %}
+    
