@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charset="UTF-8"/>
+<script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=true;__ez.queue=(function(){var count=0,incr=0,items=[],timeDelayFired=false,hpItems=[],lpItems=[],allowLoad=true;var obj={func:function(name,funcName,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError){var self=this;this.name=name;this.funcName=funcName;this.parameters=parameters===null?null:(parameters instanceof Array)?parameters:[parameters];this.isBlock=isBlock;this.blockedBy=blockedBy;this.deleteWhenComplete=deleteWhenComplete;this.isError=false;this.isComplete=false;this.isInitialized=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){log("... func = "+name);self.isInitialized=true;self.isComplete=true;log("... func.apply: "+name);var funcs=self.funcName.split('.');var func=null;if(funcs.length>3){}else if(funcs.length===3){func=window[funcs[0]][funcs[1]][funcs[2]];}else if(funcs.length===2){func=window[funcs[0]][funcs[1]];}else{func=window[self.funcName];}
+if(typeof func!=='undefined'&&func!==null){func.apply(null,this.parameters);}
+if(self.deleteWhenComplete===true)delete items[name];if(self.isBlock===true){log("----- F'D: "+self.name);processAll();}}},file:function(name,path,isBlock,blockedBy,async,defer,proceedIfError){var self=this;this.name=name;this.path=path;this.async=async;this.defer=defer;this.isBlock=isBlock;this.blockedBy=blockedBy;this.isInitialized=false;this.isError=false;this.isComplete=false;this.proceedIfError=proceedIfError;this.isTimeDelay=false;this.process=function(){self.isInitialized=true;log("... file = "+name);var scr=document.createElement('script');scr.src=path;if(async===true)scr.async=true;else if(defer===true)scr.defer=true;scr.onerror=function(){log("----- ERR'D: "+self.name);self.isError=true;if(self.isBlock===true){processAll();}};scr.onreadystatechange=scr.onload=function(){var state=scr.readyState;log("----- F'D: "+self.name);if((!state||/loaded|complete/.test(state))){self.isComplete=true;if(self.isBlock===true){processAll();}}};document.getElementsByTagName('head')[0].appendChild(scr);}},fileLoaded:function(name,isComplete){this.name=name;this.path="";this.async=false;this.defer=false;this.isBlock=false;this.blockedBy=[];this.isInitialized=true;this.isError=false;this.isComplete=isComplete;this.proceedIfError=false;this.isTimeDelay=false;this.process=function(){};}};function init(){window.addEventListener("load",function(){setTimeout(function(){timeDelayFired=true;log('TDELAY -----');processAll();},5000);},false);}
+function addFile(name,path,isBlock,blockedBy,async,defer,proceedIfError,priority){var item=new obj.file(name,path,isBlock,blockedBy,async,defer,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
+items[name]=item;checkIfBlocked(item);}
+function setallowLoad(settobool){allowLoad=settobool}
+function addFunc(name,func,parameters,isBlock,blockedBy,autoInc,deleteWhenComplete,proceedIfError,priority){if(autoInc===true)name=name+"_"+incr++;var item=new obj.func(name,func,parameters,isBlock,blockedBy,deleteWhenComplete,proceedIfError);if(priority===true){hpItems[name]=item}else{lpItems[name]=item}
+items[name]=item;checkIfBlocked(item);}
+function addTimeDelayFile(name,path){var item=new obj.file(name,path,false,[],false,false,true);item.isTimeDelay=true;log(name+' ... '+' FILE! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
+function addTimeDelayFunc(name,func,parameters){var item=new obj.func(name,func,parameters,false,[],true,true);item.isTimeDelay=true;log(name+' ... '+' FUNCTION! TDELAY');lpItems[name]=item;items[name]=item;checkIfBlocked(item);}
+function checkIfBlocked(item){if(isBlocked(item)===true||allowLoad==false)return;item.process();}
+function isBlocked(item){if(item.isTimeDelay===true&&timeDelayFired===false){log(item.name+" blocked = TIME DELAY!");return true;}
+if(item.blockedBy instanceof Array){for(var i=0;i<item.blockedBy.length;i++){var block=item.blockedBy[i];if(items.hasOwnProperty(block)===false){log(item.name+" blocked = "+block);return true;}else if(item.proceedIfError===true&&items[block].isError===true){return false;}else if(items[block].isComplete===false){log(item.name+" blocked = "+block);return true;}}}
+return false;}
+function markLoaded(filename){if(!filename||0===filename.length){return;}
+if(filename in items){var item=items[filename];if(item.isComplete===true){log(item.name+' '+filename+': error loaded duplicate')}else{item.isComplete=true;item.isInitialized=true;}}else{items[filename]=new obj.fileLoaded(filename,true);}
+log("markLoaded dummyfile: "+items[filename].name);}
+function logWhatsBlocked(){for(var i in items){if(items.hasOwnProperty(i)===false)continue;var item=items[i];isBlocked(item)}}
+function log(msg){var href=window.location.href;var reg=new RegExp('[?&]ezq=([^&#]*)','i');var string=reg.exec(href);var res=string?string[1]:null;if(res==="1")console.debug(msg);}
+function processAll(){count++;if(count>200)return;log("let's go");processItems(hpItems);processItems(lpItems);}
+function processItems(list){for(var i in list){if(list.hasOwnProperty(i)===false)continue;var item=list[i];if(item.isComplete===true||isBlocked(item)||item.isInitialized===true||item.isError===true){if(item.isError===true){log(item.name+': error')}else if(item.isComplete===true){log(item.name+': complete already')}else if(item.isInitialized===true){log(item.name+': initialized already')}}else{item.process();}}}
+init();return{addFile:addFile,addDelayFile:addTimeDelayFile,addFunc:addFunc,addDelayFunc:addTimeDelayFunc,items:items,processAll:processAll,setallowLoad:setallowLoad,markLoaded:markLoaded,logWhatsBlocked:logWhatsBlocked,};})();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot={};__ez.vep=(function(){var pixels=[],pxURL="/detroitchicago/grapefruit.gif";function AddPixel(vID,pixelData){if(__ez.dot.isDefined(vID)&&__ez.dot.isValid(pixelData)){pixels.push({type:'video',video_impression_id:vID,domain_id:__ez.dot.getDID(),t_epoch:__ez.dot.getEpoch(0),data:__ez.dot.dataToStr(pixelData)});}}
+function Fire(){if(typeof document.visibilityState!=='undefined'&&document.visibilityState==="prerender"){return;}
+if(__ez.dot.isDefined(pixels)&&pixels.length>0){while(pixels.length>0){var j=5;if(j>pixels.length){j=pixels.length;}
+var pushPixels=pixels.splice(0,j);var pixelURL=__ez.dot.getURL(pxURL)+"?orig="+(__ez.template.isOrig===true?1:0)+"&v="+btoa(JSON.stringify(pushPixels));__ez.dot.Fire(pixelURL);}}
+pixels=[];}
+return{Add:AddPixel,Fire:Fire};})();</script><script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>__ez.pel=(function(){var pixels=[],pxURL="/porpoiseant/army.gif";function AddAndFirePixel(adSlot,pixelData){AddPixel(adSlot,pixelData,0,0,0,0,0);Fire();}
+function AddAndFireOrigPixel(adSlot,pixelData){AddPixel(adSlot,pixelData,0,0,0,0,0,true);Fire();}
+function GetCurrentPixels(){return pixels;}
+function AddPixel(adSlot,pixelData,revenue,est_revenue,bid_floor_filled,bid_floor_prev,stat_source_id,isOrig){if(!__ez.dot.isDefined(adSlot)||__ez.dot.isAnyDefined(adSlot.getSlotElementId,adSlot.ElementId)==false){return;}
+if(typeof isOrig==='undefined'){isOrig=false;}
+var ad_position_id=parseInt(__ez.dot.getTargeting(adSlot,'ap'));var impId=__ez.dot.getSlotIID(adSlot),adUnit=__ez.dot.getAdUnit(adSlot,isOrig);var compId=parseInt(__ez.dot.getTargeting(adSlot,"compid"));var lineItemId=0;var creativeId=0;var ezimData=getEzimData(adSlot);if(typeof ezimData=='object'){if(ezimData.creative_id!==undefined){creativeId=ezimData.creative_id;}
+if(ezimData.line_item_id!==undefined){lineItemId=ezimData.line_item_id;}}
+if(__ez.dot.isDefined(impId,adUnit)&&__ez.dot.isValid(pixelData)){if((impId!=="0"||isOrig===true)&&adUnit!==""){pixels.push({type:"impression",impression_id:impId,domain_id:__ez.dot.getDID(),unit:adUnit,t_epoch:__ez.dot.getEpoch(0),revenue:revenue,est_revenue:est_revenue,ad_position:ad_position_id,ad_size:"",bid_floor_filled:bid_floor_filled,bid_floor_prev:bid_floor_prev,stat_source_id:stat_source_id,country_code:__ez.dot.getCC(),pageview_id:__ez.dot.getPageviewId(),comp_id:compId,line_item_id:lineItemId,creative_id:creativeId,data:__ez.dot.dataToStr(pixelData),is_orig:isOrig||__ez.template.isOrig,});}}}
+function AddPixelById(impFullId,pixelData,isOrig,revenue){var vals=impFullId.split('/');if(__ez.dot.isDefined(impFullId)&&vals.length===3&&__ez.dot.isValid(pixelData)){var adUnit=vals[0],impId=vals[2];var pix={type:"impression",impression_id:impId,domain_id:__ez.dot.getDID(),unit:adUnit,t_epoch:__ez.dot.getEpoch(0),pageview_id:__ez.dot.getPageviewId(),data:__ez.dot.dataToStr(pixelData),is_orig:isOrig||__ez.template.isOrig};if(typeof revenue!=='undefined'){pix.revenue=revenue;}
+pixels.push(pix);}}
+function Fire(){if(typeof document.visibilityState!=='undefined'&&document.visibilityState==="prerender")return;if(__ez.dot.isDefined(pixels)&&pixels.length>0){var allPixels=[pixels.filter(function(pixel){return pixel.is_orig}),pixels.filter(function(pixel){return!pixel.is_orig})];allPixels.forEach(function(pixels){while(pixels.length>0){var isOrig=pixels[0].is_orig||false;var j=5;if(j>pixels.length){j=pixels.length;}
+var pushPixels=pixels.splice(0,j);var pixelURL=__ez.dot.getURL(pxURL)+"?orig="+(isOrig===true?1:0)+"&sts="+btoa(JSON.stringify(pushPixels));if(typeof window.isAmp!=='undefined'&&isAmp&&typeof window._ezaq!=='undefined'&&_ezaq.hasOwnProperty("domain_id")){pixelURL+="&visit_uuid="+_ezaq['visit_uuid'];}
+__ez.dot.Fire(pixelURL);}});}
+pixels=[];}
+function getEzimData(adSlot){if(typeof _ezim_d=="undefined"){return false;}
+var adUnitName=__ez.dot.getAdUnitPath(adSlot).split('/').pop();if(typeof _ezim_d==='object'&&_ezim_d.hasOwnProperty(adUnitName)){return _ezim_d[adUnitName];}
+for(var ezimKey in _ezim_d){if(ezimKey.split('/').pop()===adUnitName){return _ezim_d[ezimKey];}}
+return false;}
+return{Add:AddPixel,AddAndFire:AddAndFirePixel,AddAndFireOrig:AddAndFireOrigPixel,AddById:AddPixelById,Fire:Fire,GetPixels:GetCurrentPixels,};})();</script>
+		<!-- Global Site Tag (gtag.js) - Google Analytics -->
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-163320926-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  
+	  	  gtag('config', 'UA-163320926-1');
+	  
+	</script>
+
+	
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="shortcut icon" href="https://modelkitpro.com/wp-content/uploads/2020/02/HolidaysAsset-1.png"/>
+		<link rel="profile" href="https://gmpg.org/xfn/11"/>
+
+	<title>What Are The Fifteen Best Model Kits For Beginners? – Model Kit Pro</title>
+<meta name="robots" content="max-image-preview:large"/>
+<link rel="dns-prefetch" href="//s.w.org"/>
+<link rel="alternate" type="application/rss+xml" title="Model Kit Pro » Feed" href="https://modelkitpro.com/feed/"/>
+<link rel="alternate" type="application/rss+xml" title="Model Kit Pro » Comments Feed" href="https://modelkitpro.com/comments/feed/"/>
+<script type="text/javascript">
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.1.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/modelkitpro.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.9.3"}};
+/*! This file is auto-generated */
+!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([10084,65039,8205,55357,56613],[10084,65039,8203,55357,56613])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="wp-block-library-css" href="https://modelkitpro.com/wp-includes/css/dist/block-library/style.min.css?ver=5.9.3" type="text/css" media="all"/>
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+</style>
+<link rel="stylesheet" id="lazyload-video-css-css" href="https://modelkitpro.com/wp-content/plugins/lazy-load-for-videos/public/css/lazyload-shared.css?ver=2.16.5" type="text/css" media="all"/>
+<style id="lazyload-video-css-inline-css" type="text/css">
+.entry-content a.lazy-load-youtube, a.lazy-load-youtube, .lazy-load-vimeo{ background-size: cover; }.titletext.youtube { display: none; }.lazy-load-div { background: url(https://modelkitpro.com/wp-content/plugins/lazy-load-for-videos//public/play-y-red.png) center center no-repeat; }
+</style>
+<link rel="stylesheet" id="income-school-style-css" href="https://modelkitpro.com/wp-content/themes/acabado/style.css?ver=5.9.3" type="text/css" media="all"/>
+<style id="custom-style-inline-css" type="text/css">
+body { color: #000000; }
+			h1, h2, h3, h4, h5, h6, .header { color: #003366; }
+			a { transition: color .2s; color:  };
+			a:hover, a:focus, a:active { color: #363940; }
+			.wp-block-button__link, button,	input[type='button'], input[type='reset'], input[type='submit'], .button { background: #003366; color: #ffffff; }
+			.antibounce-container { background: #f0f0f0; }
+			.antibounce-card { color: #000000; }
+			.antibounce-card .button { background: #000000; color: #ffffff }
+
+</style>
+<link rel="https://api.w.org/" href="https://modelkitpro.com/wp-json/"/><link rel="alternate" type="application/json" href="https://modelkitpro.com/wp-json/wp/v2/posts/520"/><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://modelkitpro.com/xmlrpc.php?rsd"/>
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://modelkitpro.com/wp-includes/wlwmanifest.xml"/> 
+<meta name="generator" content="WordPress 5.9.3"/>
+<link rel="canonical" href="https://modelkitpro.com/what-are-the-best-fifteen-model-kits-for-beginners/"/>
+<link rel="shortlink" href="https://modelkitpro.com/?p=520"/>
+<link rel="alternate" type="application/json+oembed" href="https://modelkitpro.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fmodelkitpro.com%2Fwhat-are-the-best-fifteen-model-kits-for-beginners%2F"/>
+<link rel="alternate" type="text/xml+oembed" href="https://modelkitpro.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fmodelkitpro.com%2Fwhat-are-the-best-fifteen-model-kits-for-beginners%2F&amp;format=xml"/>
+<meta property="og:locale" content="en_US"/><meta property="og:type" content="article"/><meta property="og:title" content="What Are The Fifteen Best Model Kits For Beginners? | Model Kit Pro"/><meta property="og:description" content="This post is all about choosing the best models for beginning model kit builders with reviews."/><meta property="og:url" content="https://modelkitpro.com/what-are-the-best-fifteen-model-kits-for-beginners/"/><meta property="og:site_name" content="Model Kit Pro"/><meta property="og:image" content="https://modelkitpro.com/wp-content/uploads/2020/02/falcon-1024x644.jpg"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="This post is all about choosing the best models for beginning model kit builders with reviews."/>	<!-- Fonts Plugin CSS - https://fontsplugin.com/ -->
+	<style>
+			</style>
+	<!-- Fonts Plugin CSS -->
+	
+<script type="text/javascript">var ezouid = "1";</script><base href="https://modelkitpro.com/what-are-the-best-fifteen-model-kits-for-beginners/"><script type='text/javascript'>
+var ezoTemplate = 'old_site_noads';
+if(typeof ezouid == 'undefined')
+{
+    var ezouid = 'none';
+}
+var ezoFormfactor = '1';
+var ezo_elements_to_check = Array();
+</script><!-- START EZHEAD -->
+<script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 275225;
+var ezdomain = 'modelkitpro.com';
+var ezoicSearchable = 1;
+</script>
+<!--{jquery}-->
+<!-- END EZHEAD -->
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">var _ezaq = {"ad_cache_level":0,"ad_lazyload_version":0,"ad_load_version":0,"city":"Istanbul","country":"TR","days_since_last_visit":-1,"domain_id":275225,"engaged_time_visit":0,"ezcache_level":1,"ezcache_skip_code":0,"form_factor_id":1,"framework_id":1,"is_return_visitor":false,"is_sitespeed":0,"last_page_load":"","last_pageview_id":"","lt_cache_level":0,"metro_code":0,"page_ad_positions":"","page_view_count":0,"page_view_id":"14b88b98-31ce-4240-5c81-ad24b4b397cb","position_selection_id":0,"postal_code":"34353","pv_event_count":0,"response_size_orig":62156,"response_time_orig":2692,"serverid":"18.197.18.103:8330","state":"34","t_epoch":1653399598,"template_id":120,"time_on_site_visit":0,"url":"https://modelkitpro.com/what-are-the-best-fifteen-model-kits-for-beginners/","user_id":0,"word_count":1991,"worst_bad_word_level":0};var _ezExtraQueries = "&ez_orig=1";</script>
+<script data-ezscrex='false' data-pagespeed-no-defer data-cfasync='false'>
+function create_ezolpl(pvID, rv) {
+    var d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    __ez.ck.setByCat("ezux_lpl_275225=" + new Date().getTime() + "|" + pvID + "|" + rv + "; " + expires, 3);
+}
+function attach_ezolpl(pvID, rv) {
+    if (document.readyState === "complete") {
+        create_ezolpl(pvID, rv);
+    }
+    if(window.attachEvent) {
+        window.attachEvent("onload", create_ezolpl, pvID, rv);
+    } else {
+        if(window.onload) {
+            var curronload = window.onload;
+            var newonload = function(evt) {
+                curronload(evt);
+                create_ezolpl(pvID, rv);
+            };
+            window.onload = newonload;
+        } else {
+            window.onload = create_ezolpl.bind(null, pvID, rv);
+        }
+    }
+}
+
+__ez.queue.addFunc("attach_ezolpl", "attach_ezolpl", ["14b88b98-31ce-4240-5c81-ad24b4b397cb", "false"], false, ['/detroitchicago/boise.js'], true, false, false, false);
+</script>
+<script type="text/javascript">var _audins_dom="modelkitpro_com",_audins_did=275225;__ez.queue.addFile('/detroitchicago/cmbv2.js', '/detroitchicago/cmbv2.js?gcb=195-0&cb=04-1y02-5y06-12y07-1y19-5y0b-5y0d-14y13-3y17-4y1c-2y21-3y2d-4y55-1&cmbcb=75&sj=x04x02x06x07x19x0bx0dx13x17x1cx21x2dx55', true, [], true, false, true, false);</script>
+<script type="text/javascript" defer>__ez.queue.addFile('/detroitchicago/cmbdv2.js', '/detroitchicago/cmbdv2.js?gcb=195-0&cb=03-5y0c-5y18-4&cmbcb=75&sj=x03x0cx18', true, ['/detroitchicago/cmbv2.js'], true, false, true, false);</script></head>
+
+
+<body class="post-template-default single single-post postid-520 single-format-standard no-sidebar">
+<div id="page" class="site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+	
+	<header id="masthead" class="site-header">
+		<div class="inner-wrap">
+			<div class="hamburger-wrapper">
+				<button class="hamburger hamburger--squeeze menu-toggle" type="button" aria-label="Menu" aria-controls="primary-menu" aria-expanded="false">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+					<span class="label">MENU</span>
+				</button>
+			</div>
+			<div class="site-branding">
+								<a href="https://modelkitpro.com/" class="custom-logo-link" rel="home" itemprop="url"><img width="480" height="480" src="https://modelkitpro.com/wp-content/uploads/2020/02/ModelKitProArtboard-3.png" class="attachment-medium size-medium" alt="" loading="lazy" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/ModelKitProArtboard-3.png 480w, https://modelkitpro.com/wp-content/uploads/2020/02/ModelKitProArtboard-3-150x150.png 150w" sizes="(max-width: 480px) 100vw, 480px"/></a>
+									<!-- <h1 class="site-title"><a tabindex="-1" href="" rel="home"></a></h1> -->
+										<!-- <p class="site-title"><a tabindex="-1" href="" rel="home"></a></p> -->
+								</div><!-- .site-branding -->
+			<div class="search-wrapper">
+				<a href="#open" id="search-icon" style="background: url(https://modelkitpro.com/wp-content/themes/acabado/img/search-icon.png) center/cover no-repeat #fff;"><span class="sr-only">Search</span></a>
+				
+<form role="search" method="get" class="search-form" action="https://modelkitpro.com/">
+	<style>
+	.search-wrapper.search-active .search-field {
+		width: 200px;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.search-wrapper button[type="submit"] {
+		display: inline-block;
+		vertical-align: top;
+		top: -35px;
+		position: relative;
+		background-color: transparent;
+		height: 30px;
+		width: 30px;
+		padding: 0;
+		margin: 0;
+		background-image: url("https://modelkitpro.com/wp-content/themes/acabado/img/search-icon.png");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	.search-wrapper.search-active button[type="submit"] {
+		display: inline-block !important;
+	}
+	</style>
+	<label for="s">
+		<span class="screen-reader-text">Search for:</span>
+	</label>
+	<input type="search" id="search-field" class="search-field" placeholder="Search …" value="" name="s"/>
+	<button type="submit" class="search-submit" style="display:none;"><span class="screen-reader-text"></span></button>
+</form>
+			</div>
+		</div>
+
+		<nav id="site-navigation" class="main-navigation">
+			<!-- <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"></button> -->
+			<div class="menu-primary-container"><ul id="primary-menu" class="inner-wrap"><li id="menu-item-300" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-300"><a href="/blog/">Blog</a>
+<button type="button" class="toggle-submenu" style="display: none"><span class="sr-only">Submenu Toggle
+				</span></button><ul class="submenu">
+	<li id="menu-item-1835" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1835"><a href="https://modelkitpro.com/category/general-info/">General Info</a></li>
+	<li id="menu-item-1836" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1836"><a href="https://modelkitpro.com/category/beginners/">Beginners</a></li>
+	<li id="menu-item-1837" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-1837"><a href="https://modelkitpro.com/category/kits/">Kits</a></li>
+	<li id="menu-item-1838" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1838"><a href="https://modelkitpro.com/category/how-to/">How-to</a></li>
+	<li id="menu-item-1839" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1839"><a href="https://modelkitpro.com/category/reviews/">Reviews</a></li>
+	<li id="menu-item-1840" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1840"><a href="https://modelkitpro.com/category/tools/">Tools</a></li>
+	<li id="menu-item-1841" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1841"><a href="https://modelkitpro.com/category/history/">History</a></li>
+	<li id="menu-item-1843" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1843"><a href="https://modelkitpro.com/category/military/">military</a></li>
+	<li id="menu-item-1844" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1844"><a href="https://modelkitpro.com/category/gifts/">gifts</a></li>
+	<li id="menu-item-1842" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1842"><a href="https://modelkitpro.com/category/cost/">Cost</a></li>
+</ul>
+</li>
+<li id="menu-item-307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-307"><a href="https://modelkitpro.com/about-us/">About</a>
+<button type="button" class="toggle-submenu" style="display: none"><span class="sr-only">Submenu Toggle
+				</span></button><ul class="submenu">
+	<li id="menu-item-308" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-308"><a href="https://modelkitpro.com/contact/">Contact</a></li>
+</ul>
+</li>
+<li id="menu-item-581" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-581"><a href="https://modelkitpro.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-1845" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1845"><a href="https://modelkitpro.com/sitemap/">Sitemap</a></li>
+</ul></div>		</nav><!-- #site-navigation -->
+	</header><!-- #masthead -->
+
+	<div id="content" class="site-content">
+					<section class="antibounce-container" id="antibounce" style="display: none;">
+				<article class="antibounce-card">
+					<div class="stop-sign-wrapper">
+						<img src="https://modelkitpro.com/wp-content/themes/acabado/img/stop-sign.svg" alt="traffic stop sign" width="140" height="140"/>
+					</div>
+					<div class="copy-wrapper">
+						<p class="header">Before you go, check this out!</p>
+						<p>We have lots more on the site to show you. You&#39;ve only seen one page. Check out this post which is one of the most popular of all time. </p>
+					</div>
+					<button onclick="window.location.href=&#39;https://modelkitpro.com/how-to-build-a-model-kit-step-by-step/&#39;;">READ MORE</button>
+					<!-- <a href="" class="button">READ MORE</a> -->
+				</article>
+			</section>
+			
+	<div id="primary" class="content-area ">
+		<main id="main" class="site-main">
+
+		
+<article id="post-520" class="post-520 post type-post status-publish format-standard has-post-thumbnail hentry category-beginners category-general-info category-kits">
+	<header class="entry-header">
+		<h1 class="entry-title">What Are The Fifteen Best Model Kits For Beginners?</h1>			<div class="entry-meta sr-only">
+				<meta itemprop="datePublished" content="2020-02-16"/><meta itemprop="dateModified" content="2020-02-22"/><span class="byline"> Written by <span class="author vcard"><a class="url fn n" href="https://modelkitpro.com/author/gary/">Gary Ternus</a></span> </span><meta itemprop="author" content="Gary Ternus"/><link id="page-url" itemprop="mainEntityOfPage" href="https://modelkitpro.com/what-are-the-best-fifteen-model-kits-for-beginners/"/> in <a href="https://modelkitpro.com/category/beginners/" rel="category tag">Beginners</a>,<a href="https://modelkitpro.com/category/general-info/" rel="category tag">General Info</a>,<a href="https://modelkitpro.com/category/kits/" rel="category tag">Kits</a>			</div><!-- .entry-meta -->
+      <br/>	</header><!-- .entry-header -->
+
+	
+	<div class="entry-content" itemprop="articleBody">
+		<p>Modeling is a hobby that you can begin at any age. It will give you thousands of challenging and satisfying hours as you learn new skills and crafts.  But what are the fifteen best model kits for beginners? I decided to find out.</p><p><strong>What are some of the best and most interesting model kits for beginners?</strong> <strong>First, choose a model that corresponds to the level you feel you are at– with level one being the easiest and five the hardest. Pick a model that you have an interest in whether it be in autos, planes, boats, military or others.</strong></p><p>There are so many different choices of model kits we will take a look at five  different types and find three recommended choices in each category.</p><h2>Automobiles: Skill Level: 1 and 2</h2><p>1- <strong><a rel="noreferrer noopener" aria-label=" (opens in a new tab)" href="https://amzn.to/37SfkWe" target="_blank">Revell/Monogram Ford Police Car Build and Play Skill Level 1 for Beginners Model Kit</a></strong>. Crown Victoria police cars can be found all over the country so this is a popular model. Modern snap kits are  very easy to assemble. Designed for <strong>ages six and up</strong>, this kit features police light bar, rear seat divider, snap construction, (no screws or glue required) and rolling wheels.</p><figure class="wp-block-image size-large"><img width="964" height="524" src="https://modelkitpro.com/wp-content/uploads/2020/02/police-car.jpg" alt="" class="wp-image-757" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/police-car.jpg 964w, https://modelkitpro.com/wp-content/uploads/2020/02/police-car-768x417.jpg 768w" sizes="(max-width: 964px) 100vw, 964px"/></figure><p>2- <strong>Revell 1:24 <a rel="noreferrer noopener" aria-label="Shelby Mustang GT350H (opens in a new tab)" href="https://amzn.to/2T5A7Au" target="_blank">Shelby Mustang GT350H</a></strong>. This skill level 2 Mustang has the GT instrument cluster, dual exhausts, 4-speed transmission and the highly detailed 289 cid. Not a snap together so it requires glue and paint. This kit is perfect for <strong>learning the gluing and painting skills</strong> needed to progress in your modeling hobby.</p><div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="378" height="149" src="https://modelkitpro.com/wp-content/uploads/2020/02/shelby.jpg" alt="" class="wp-image-758"/></figure></div><p>3- <strong>Revell Model T “Black Widow” Ford Model T</strong> pickup hot rod. This is a skill level 2 model kit, which typically indicates there will be no need for extensive cutting or sanding, and painting is optional but you will need to glue it. Before you start it is always a good idea to look through the  instruction manual first. </p><div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://modelkitpro.com/wp-content/uploads/2020/02/black-widow.jpg" alt="" class="wp-image-760" width="439" height="264" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/black-widow.jpg 800w, https://modelkitpro.com/wp-content/uploads/2020/02/black-widow-768x463.jpg 768w" sizes="(max-width: 439px) 100vw, 439px"/></figure></div><h2>Airplanes: Skill Levels 1 and 2</h2><p>1- <strong><a href="https://amzn.to/32j9iNc" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">Revell 1:48 Spitfire MKII</a></strong>.  This plane is a skill Level 2 that is 1/48 scale with a wingspan of 8- 9/10 inches, length  7-2/5 and has 34 parts. Also features a detailed cockpit area, landing gear, water-slide decals. </p><p>Originally a seaplane, the Spitfire won a competition to become the R.A.F.’s number one fighter. It proved to be more than a match for the best that Germany could muster. Its kill ratio was 10 to 1 in the skies over England.</p><figure class="wp-block-image size-large"><img loading="lazy" width="800" height="421" src="https://modelkitpro.com/wp-content/uploads/2020/02/spitfire.jpg" alt="" class="wp-image-761" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/spitfire.jpg 800w, https://modelkitpro.com/wp-content/uploads/2020/02/spitfire-768x404.jpg 768w" sizes="(max-width: 800px) 100vw, 800px"/></figure><p>Level 2 <a href="https://amzn.to/2STEEHr" target="_blank" rel="noreferrer noopener" aria-label="Revell SnapTite A-10 Warthog Plastic Model Kit (opens in a new tab)"><strong>Revell SnapTite A-10 Warthog Plastic Model Kit</strong></a>. </p><p>Learn to plan and evaluate a project by snapping together the pre-painted pieces and applying authentic decals, no paint or glue required. Includes a display stand. Model scale is 1:72 and is recommended for <strong>ages 8 years and up.</strong> </p><p>Easy snap assembly and multicolored parts – no painting, no glue needed. This kit also includes a desktop display stand.</p><figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="513" src="https://modelkitpro.com/wp-content/uploads/2020/02/warthog-1024x513.jpg" alt="" class="wp-image-762" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/warthog-1024x513.jpg 1024w, https://modelkitpro.com/wp-content/uploads/2020/02/warthog-1280x642.jpg 1280w, https://modelkitpro.com/wp-content/uploads/2020/02/warthog-768x385.jpg 768w, https://modelkitpro.com/wp-content/uploads/2020/02/warthog.jpg 1500w" sizes="(max-width: 1024px) 100vw, 1024px"/></figure><p>3- <a href="https://amzn.to/2T6FoaP" target="_blank" rel="noreferrer noopener" aria-label="Revell SnapTite F-18 Blue Angels (opens in a new tab)"><strong>Revell SnapTite F-18 Blue Angels</strong></a> Plastic Model Kit. Easy snap assembly and multicolored parts – no painting, no glue needed. Recommended for <strong>ages 8 years and up</strong>.</p><p>The sleek F-18 fighter is used extensively by the U.S. Navy, but is probably best known for its use by the Blue Angels aerobatics team. Features: Easy snap-together construction, parts molded in color, special decal sheet with one set of authentic markings and a bonus set of custom graphics such as lightning bolts and shark jaws. </p><div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="478" height="213" src="https://modelkitpro.com/wp-content/uploads/2020/02/blueAngels.jpg" alt="" class="wp-image-763"/></figure></div><h2>Boats and Ships: Skill Levels 1 and 2</h2><p>1- <a href="https://amzn.to/2SPZS93" target="_blank" rel="noreferrer noopener" aria-label="Revell 1:426 USS Arizona Battleship (opens in a new tab)"><strong>Revell 1:426 USS Arizona Battleship</strong></a> This ship is a skill level 2 with 133 parts. Finished model is seventeen inches long and three inches wide.  It is molded in gray, positionable guns and turrets. <strong>Requires paint and glue</strong> (not included).</p><p>Complete deck fittings, including searchlights, motor launches and whaleboats, rangefinders, ladders, cranes, and tripod masts with observation nests. Finely engraved planking and plate detail.</p><p>This model is very detailed and easy to assemble. The instructions are clear, and the paint scheme was easy. It is an excellent reproduction of the Arizona. The turrets of the guns actually turn.</p><div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="370" height="284" src="https://modelkitpro.com/wp-content/uploads/2020/02/battleship.jpg" alt="" class="wp-image-766"/></figure></div><p>2- <a href="https://amzn.to/2SPG6ub" target="_blank" rel="noreferrer noopener" aria-label="Revell SnapTite The Black Diamond Pirate Ship (opens in a new tab)"><strong>Revell SnapTite The Black Diamond Pirate Ship</strong></a> Model Kit: The perfect collector piece for history buffs! This package contains twenty-six plastic pieces, molded in color, peel ‘n stick decals and measures at 11-1/4 inches long. Scale of the ship is 1:350. Skill level: 1. Recommended for <strong>ages 8 and up</strong>.</p><p>Have fun while easily snapping this set together in about an hour. Features a 1-piece hull for easier construction. Proudly display your completed ship on the included engraved stand.</p><div class="wp-block-image"><figure class="aligncenter size-large is-resized"><img loading="lazy" src="https://modelkitpro.com/wp-content/uploads/2020/02/pirate.jpg" alt="" class="wp-image-767" width="415" height="480" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/pirate.jpg 820w, https://modelkitpro.com/wp-content/uploads/2020/02/pirate-691x800.jpg 691w, https://modelkitpro.com/wp-content/uploads/2020/02/pirate-768x890.jpg 768w" sizes="(max-width: 415px) 100vw, 415px"/></figure></div><p>3- <a rel="noreferrer noopener" aria-label="Revell 1:72 Pt-109 P T Boat (opens in a new tab)" href="https://amzn.to/2HL9n2K" target="_blank"><strong>Revell 1:72 Pt-109 PT Boat</strong></a>: Simple and affordable, the Revell PT Boat is a nice introductory set for a youngster getting into the hobby. The instructions are solid, and it’s <strong>a great way for a novice to learn some nautical history</strong> and practice the fundamentals of assembling pieces and doing some painting.</p><p>There are 83 pieces molded in dark green that includes four torpedo tubes, two twin 50 caliber machine guns, a 20mm cannon and a life raft. Contains clear assembly instructions with a detailed synopsis of President John F. Kennedy’s exciting and dangerous voyage.</p><p>Includes a display stand, water-slide decals, four crew figures, and three rudders. Propellers and shafts are also included.</p><div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="458" height="266" src="https://modelkitpro.com/wp-content/uploads/2020/02/PT-boat.jpg" alt="" class="wp-image-768"/></figure></div><h2>Military</h2><p>1- <a rel="noreferrer noopener" aria-label="Tamiya 35346 1/35 US Medium Tank M4A3E8 Sherman (opens in a new tab)" href="https://amzn.to/2SSvtqB" target="_blank"><strong>Tamiya 35346 1/35 US Medium Tank M4A3E8 Sherman</strong></a> Plastic Model Kit: The “Easy Eight” was a favorite for its smooth ride. It has excellent detail, but the assembly is simplified. The cast effect detail on the turret looks great, plus the welded hull surface is highly accurate. Single pin T66 tracks are highly accurate, and the included commander figure is in a realistic pose.</p><p>Clear parts are used to recreate light lens and cupola vision block parts, further upping the realism of this kit.</p><p>It is a fast and easy build but the detail is astounding. The texture on the turret and areas of the hull give it an great touch of realism. </p><p>This kit is<strong> great for a first or second build</strong>.</p><figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="584" src="https://modelkitpro.com/wp-content/uploads/2020/02/tank-1024x584.jpg" alt="" class="wp-image-771" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/tank-1024x584.jpg 1024w, https://modelkitpro.com/wp-content/uploads/2020/02/tank-1280x730.jpg 1280w, https://modelkitpro.com/wp-content/uploads/2020/02/tank-768x438.jpg 768w, https://modelkitpro.com/wp-content/uploads/2020/02/tank.jpg 1320w" sizes="(max-width: 1024px) 100vw, 1024px"/></figure><p>2- <strong><a href="https://amzn.to/2PhFmMb" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">MPC World War II Military Jeep</a></strong> Model Kit: The Army’s versatile workhorse-authentically detailed with extra parts. Scale: 1/25Skill Level: 2 (<strong>ages 10 and up</strong>).</p><p> Authentic military and medic markings included. Glue assembly and paint required. Bonus parts for surrey top version. Molded in white and clear with water-release decals.</p><p> Build three ways: stock command Jeep, armed with 105 recoilless rifle or 50 cal machine gun! Detailed parts: straight six engine, shells, heavy cleated vinyl tires, detailed chassis and undercarriage, 50 cal. machine gun, 105 recoilless rifle, radio  and gas tank.</p><p>Early CJ Jeeps were used for lots of different reasons, from farming, plowing, to ditch digging. But no matter how you build it, it will be worth the extra work to make it more accurate. </p><div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="482" height="345" src="https://modelkitpro.com/wp-content/uploads/2020/02/WW2-jeep.jpg" alt="" class="wp-image-774"/></figure></div><p>3-  <strong>Buffalo Amphibian &amp; Willys Jeep</strong>: Military model kit that will need to be assembled and painted. Paint and glue <strong>to be bought separately</strong> Skill level 2  that fairly easy with 107 parts. Scale : 1:76. </p><p>This cleated-tracked landing vehicle was designed for the US Army initially, but then was also used by the British Army in NW Europe. The track design enabled it to travel through water as well as on land. This box also contains the ever reliable, multi purpose Willys Jeep.</p><div class="wp-block-image"><figure class="aligncenter size-large"><img loading="lazy" width="303" height="166" src="https://modelkitpro.com/wp-content/uploads/2020/02/buffalo.jpeg" alt="" class="wp-image-775"/></figure></div><h2>Other Types of Models</h2><p>1- <strong><a href="https://amzn.to/37PGpJJ" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">Revell Snaptite Build and Play Star Wars: The Last Jedi Millennium Falcon</a></strong>: The kit includes 19 easy snap together pieces that provides maximum detail and durability. No tools, paint or glue needed for assembly.</p><p>This product is packed with features such as light up Hyper drive Motivator and all new battle action sounds ranging from small machine gun fire to a roaring takeoff through hyperspace! </p><p>This authentic 85-1668 captures all the detail and nuance of the vehicles as they appear on the silver screen!</p><figure class="wp-block-image size-large is-resized"><img loading="lazy" src="https://modelkitpro.com/wp-content/uploads/2020/02/falcon-1024x644.jpg" alt="" class="wp-image-778" width="389" height="244" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/falcon-1024x644.jpg 1024w, https://modelkitpro.com/wp-content/uploads/2020/02/falcon-1273x800.jpg 1273w, https://modelkitpro.com/wp-content/uploads/2020/02/falcon-768x483.jpg 768w, https://modelkitpro.com/wp-content/uploads/2020/02/falcon.jpg 1500w" sizes="(max-width: 389px) 100vw, 389px"/></figure><p>2- <strong><a href="https://amzn.to/38P5XIs" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">Revell 85-8883 1/4 Visible V-8 Engine</a></strong> Plastic Model Kit, 12-Inch: This 1/4 Scale Visible V-8 Engine Plastic Assembly Kit from Revell is the winner of the 2008 Parents Choice Award and Silver Honor – 1995 Doing &amp; Learning Toys. </p><p>What better way to see how an internal combustion engine works than to be able to see all of the parts move! As you turn the crank, each of the parts move, just like the real thing. The Visible V8 Engine features moving pistons and connecting rods. A hand crank operates the pistons, camshaft rocker arms and valves. </p><p>The kit includes a rubber fan belt and vinyl ignition wires. Also included is a display stand and screwdriver for construction. A superb educational tool on the inner workings and construction of a V-8 engine! This is a skill level 3 model, recommended for <strong>ages 12 and up</strong>.</p><figure class="wp-block-image size-large is-resized"><img loading="lazy" src="https://modelkitpro.com/wp-content/uploads/2020/02/engine.jpg" alt="" class="wp-image-779" width="323" height="319" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/engine.jpg 811w, https://modelkitpro.com/wp-content/uploads/2020/02/engine-807x800.jpg 807w, https://modelkitpro.com/wp-content/uploads/2020/02/engine-768x761.jpg 768w" sizes="(max-width: 323px) 100vw, 323px"/></figure><p>3- <strong><a href="https://amzn.to/2T5CFi2" target="_blank" rel="noreferrer noopener" aria-label=" (opens in a new tab)">Meccano Erector, Ferrari FXX-K, S.T.E.A.M.</a></strong>   With the Erector by Meccano Ferrari FXX-K model building kit, young builders can create their own race car! This model kit includes everything needed for construction, plus stick-on decals for the finishing touches.</p><p>Build a sleek replica of Ferrari’s high-performance race car! This building kit gives young builders real tools to piece together durable nuts, bolts and wheels to create their very own Ferrari FXX-K model!S.T.E.A.M. TOY: </p><p>As kids assemble with this kit, they’ll apply principles from science, technology, engineering, arts and math. Kids will strengthen their hand-eye coordination, problem-solving and fine motor skills, while using their imagination!</p><p>The Erector by Meccano Ferrari FXX-K S.T.E.A.M. This is a skill level two model for <strong>ages 10 and up</strong>. </p><figure class="wp-block-image size-large is-resized"><img loading="lazy" src="https://modelkitpro.com/wp-content/uploads/2020/02/erector-1024x632.jpg" alt="" class="wp-image-780" width="483" height="297" srcset="https://modelkitpro.com/wp-content/uploads/2020/02/erector-1024x632.jpg 1024w, https://modelkitpro.com/wp-content/uploads/2020/02/erector-1280x790.jpg 1280w, https://modelkitpro.com/wp-content/uploads/2020/02/erector-768x474.jpg 768w, https://modelkitpro.com/wp-content/uploads/2020/02/erector.jpg 1500w" sizes="(max-width: 483px) 100vw, 483px"/></figure><h2>Related Questions</h2><p><strong>Who makes model cars?</strong>  There are currently around 200 model kit makers in the world. Some of the most well-known are Revell, AMT, MPC, Monogram, Johan, Revell of Germany, Tamiya, Hasagawa, and Moebius. </p><p><strong>What are model car scale sizes? </strong>The “scale” of a model is its size relative to the size of the “real” version. So compared to a <strong>1:24</strong> scale model, the real version is <strong>24 times larger</strong> in size.</p><p><strong>Are model car kits fun to build?</strong> Building a model kit is one of the most rewarding hobbies – and in our opinion, the best. No other hobby allows you to recreate scale <strong>models</strong> of real-life (or fictional) items with such detail.</p><p>All links are from the Amazon Affiliate program.</p><p><br/></p>
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+			</footer><!-- .entry-footer -->
+
+</article><!-- #post-520 -->
+
+<script type="application/ld+json">
+    {"@context":"http:\/\/schema.org\/","@type":"BlogPosting","name":"What Are The Fifteen Best Model Kits For Beginners?","url":"https:\/\/modelkitpro.com\/what-are-the-best-fifteen-model-kits-for-beginners\/","articleBody":"Modeling is a hobby that you can begin at any age. It will give you thousands of challenging and satisfying hours as you learn new skills and crafts.  But what are the fifteen best model kits for beginners? I decided to find out.\n\n\n\nWhat are some of the best and most interesting model kits for beginners? First, choose a model that corresponds to the level you feel you are at-- with level one being the easiest and five the hardest. Pick a model that you have an interest in whether it be in autos, planes, boats, military or others.\n\n\n\nThere are so many different choices of model kits we will take a look at five  different types and find three recommended choices in each category.\n\n\n\nAutomobiles: Skill Level: 1 and 2\n\n\n\n1- Revell\/Monogram Ford Police Car Build and Play Skill Level 1 for Beginners Model Kit. Crown Victoria police cars can be found all over the country so this is a popular model. Modern snap kits are  very easy to assemble. Designed for ages six and up, this kit features police light bar, rear seat divider, snap construction, (no screws or glue required) and rolling wheels.\n\n\n\n\n\n\n\n2- Revell 1:24 Shelby Mustang GT350H. This skill level 2 Mustang has the GT instrument cluster, dual exhausts, 4-speed transmission and the highly detailed 289 cid.\u00a0Not a snap together so it requires glue and paint. This kit is perfect for learning the gluing and painting skills needed to progress in your modeling hobby.\n\n\n\n\n\n\n\n3- Revell Model T \"Black Widow\" Ford Model T pickup hot rod. This is a skill level 2 model kit, which typically indicates there will be no need for extensive cutting or sanding, and painting is optional but you will need to glue it. Before you start it is always a good idea to look through the \u00a0instruction manual first. \n\n\n\n\n\n\n\nAirplanes: Skill Levels 1 and 2\n\n\n\n1- Revell 1:48 Spitfire MKII.  This plane is a skill Level 2 that is 1\/48 scale with a wingspan of 8- 9\/10 inches, length  7-2\/5 and has 34 parts. Also features a detailed cockpit area, landing gear, water-slide decals.\u00a0\n\n\n\nOriginally a seaplane, the Spitfire won a competition to become the R.A.F.'s number one fighter. It proved to be more than a match for the best that Germany could muster. Its kill ratio was 10 to 1 in the skies over England.\n\n\n\n\n\n\n\nLevel 2 Revell SnapTite A-10 Warthog Plastic Model Kit. \n\n\n\nLearn to plan and evaluate a project by snapping together the pre-painted pieces and applying authentic decals, no paint or glue required. Includes a display stand. Model scale is 1:72 and is recommended for ages 8 years and up. \n\n\n\nEasy snap assembly and multicolored parts - no painting, no glue needed. This kit also includes a desktop display stand.\n\n\n\n\n\n\n\n3- Revell SnapTite F-18 Blue Angels Plastic Model Kit. Easy snap assembly and multicolored parts - no painting, no glue needed. Recommended for ages 8 years and up.\n\n\n\nThe sleek F-18 fighter is used extensively by the U.S. Navy, but is probably best known for its use by the Blue Angels aerobatics team. Features: Easy snap-together construction, parts molded in color, special decal sheet with one set of authentic markings and a bonus set of custom graphics such as lightning bolts and shark jaws.\u00a0\n\n\n\n\n\n\n\nBoats and Ships: Skill Levels 1 and 2\n\n\n\n1- Revell 1:426 USS Arizona Battleship This ship is a skill level 2 with 133 parts. Finished model is seventeen inches long and three inches wide. \u00a0It is molded in gray, positionable guns and turrets. Requires paint and glue (not included).\n\n\n\nComplete deck fittings, including searchlights, motor launches and whaleboats, rangefinders, ladders, cranes, and tripod masts with observation nests. Finely engraved planking and plate detail.\n\n\n\nThis model is very detailed and easy to assemble. The instructions are clear, and the paint scheme was easy. It is an excellent reproduction of the Arizona. The turrets of the guns actually turn.\n\n\n\n\n\n\n\n2- Revell SnapTite The Black Diamond Pirate Ship Model Kit: The perfect collector piece for history buffs! This package contains twenty-six plastic pieces, molded in color, peel 'n stick decals and measures at 11-1\/4 inches long. Scale of the ship is 1:350. Skill level: 1. Recommended for ages 8 and up.\n\n\n\nHave fun while easily snapping this set together in about an hour. Features a 1-piece hull for easier construction. Proudly display your completed ship on the included engraved stand.\n\n\n\n\n\n\n\n3- Revell 1:72 Pt-109 PT Boat: Simple and affordable, the Revell PT Boat\u00a0is a nice introductory set for a youngster getting into the hobby. The instructions are solid, and it\u2019s a great way for a novice to learn some nautical history and practice the fundamentals of assembling pieces and doing some painting.\n\n\n\nThere are 83 pieces molded in dark green that includes four torpedo tubes, two twin 50 caliber machine guns, a 20mm cannon and a life raft. Contains clear assembly instructions with a detailed synopsis of President John F. Kennedy's exciting and dangerous voyage.\n\n\n\nIncludes a display stand, water-slide decals, four crew figures, and three rudders. Propellers and shafts are also included.\n\n\n\n\n\n\n\nMilitary\n\n\n\n1- Tamiya 35346 1\/35 US Medium Tank M4A3E8 Sherman Plastic Model Kit: The \u201cEasy Eight\u201d was a favorite for its smooth ride. It has excellent detail, but the assembly is simplified. The cast effect detail on the turret looks great, plus the welded hull surface is highly accurate. Single pin T66 tracks are highly accurate, and the included commander figure is in a realistic pose.\n\n\n\nClear parts are used to recreate light lens and cupola vision block parts, further upping the realism of this kit.\n\n\n\nIt is a fast and easy build but the detail is astounding. The texture on the turret and areas of the hull give it an great touch of realism. \n\n\n\nThis kit is great for a first or second build.\n\n\n\n\n\n\n\n2- MPC World War II Military Jeep Model Kit: The Army\u2019s versatile workhorse-authentically detailed with extra parts. Scale: 1\/25Skill Level: 2 (ages 10 and up).\n\n\n\n Authentic military and medic markings included. Glue assembly and paint required. Bonus parts for surrey top version. Molded in white and clear with water-release decals.\n\n\n\n Build three ways: stock command Jeep, armed with 105 recoilless rifle or 50 cal machine gun! Detailed parts: straight six engine, shells, heavy cleated vinyl tires, detailed chassis and undercarriage, 50 cal. machine gun, 105 recoilless rifle, radio  and gas tank.\n\n\n\nEarly CJ Jeeps were used for lots of different reasons, from farming, plowing, to ditch digging. But no matter how you build it, it will be worth the extra work to make it more accurate.\u00a0\n\n\n\n\n\n\n\n3-  Buffalo Amphibian &amp; Willys Jeep: Military model kit that will need to be assembled and painted. Paint and glue\u00a0to be bought separately Skill level 2  that fairly easy with 107 parts. Scale : 1:76. \n\n\n\nThis cleated-tracked landing vehicle was designed for the US Army initially, but then was also used by the British Army in NW Europe. The track design enabled it to travel through water as well as on land. This box also contains the ever reliable, multi purpose Willys Jeep.\n\n\n\n\n\n\n\nOther Types of Models\n\n\n\n1- Revell Snaptite Build and Play Star Wars: The Last Jedi Millennium Falcon: The kit includes 19 easy snap together pieces that provides maximum detail and durability. No tools, paint or glue needed for assembly.\n\n\n\nThis product is packed with features such as light up Hyper drive Motivator and all new battle action sounds ranging from small machine gun fire to a roaring takeoff through hyperspace! \n\n\n\nThis authentic 85-1668 captures all the detail and nuance of the vehicles as they appear on the silver screen!\n\n\n\n\n\n\n\n2- Revell 85-8883 1\/4 Visible V-8 Engine Plastic Model Kit, 12-Inch: This 1\/4 Scale Visible V-8 Engine Plastic Assembly Kit from Revell is the winner of the 2008 Parents Choice Award and Silver Honor - 1995 Doing &amp; Learning Toys. \n\n\n\nWhat better way to see how an internal combustion engine works than to be able to see all of the parts move! As you turn the crank, each of the parts move, just like the real thing. The Visible V8 Engine features moving pistons and connecting rods. A hand crank operates the pistons, camshaft rocker arms and valves. \n\n\n\nThe kit includes a rubber fan belt and vinyl ignition wires. Also included is a display stand and screwdriver for construction. A superb educational tool on the inner workings and construction of a V-8 engine! This is a skill level 3 model, recommended for ages 12 and up.\n\n\n\n\n\n\n\n3- Meccano Erector, Ferrari FXX-K, S.T.E.A.M.   With the Erector by Meccano Ferrari FXX-K model building kit, young builders can create their own race car! This model kit includes everything needed for construction, plus stick-on decals for the finishing touches.\n\n\n\nBuild a sleek replica of Ferrari\u2019s high-performance race car! This building kit gives young builders real tools to piece together durable nuts, bolts and wheels to create their very own Ferrari FXX-K model!S.T.E.A.M. TOY: \n\n\n\nAs kids assemble with this kit, they\u2019ll apply principles from science, technology, engineering, arts and math. Kids will strengthen their hand-eye coordination, problem-solving and fine motor skills, while using their imagination!\n\n\n\nThe Erector by Meccano Ferrari FXX-K S.T.E.A.M. This is a skill level two model for ages 10 and up. \n\n\n\n\n\n\n\nRelated Questions\n\n\n\nWho makes model cars? \u00a0There are currently around 200 model kit makers in the world. Some of the most well-known are Revell, AMT, MPC, Monogram, Johan, Revell of Germany, Tamiya, Hasagawa, and Moebius. \n\n\n\nWhat are model car scale sizes? The \"scale\" of a\u00a0model\u00a0is its size relative to the size of the \"real\" version. So compared to a 1:24\u00a0scale model, the real version is 24 times larger in size.\n\n\n\nAre model car kits fun to build? Building\u00a0a\u00a0model kit\u00a0is one of the most rewarding hobbies \u2013 and in our opinion, the best. No other hobby allows you to recreate scale\u00a0models\u00a0of real-life (or fictional) items with such detail.\n\n\n\nAll links are from the Amazon Affiliate program.","headline":"What Are The Fifteen Best Model Kits For Beginners?","author":"Gary Ternus","datePublished":"2020-02-16","mainEntityOfPage":"True","dateModified":"2020-02-22","image":{"@type":"ImageObject","url":"https:\/\/modelkitpro.com\/wp-content\/uploads\/2020\/02\/falcon-1024x644.jpg","height":403,"width":640},"publisher":{"@context":"http:\/\/schema.org\/","@type":"Organization","name":"Model Kit Pro","logo":{"@type":"ImageObject","url":"https:\/\/modelkitpro.com\/wp-content\/uploads\/2020\/02\/ModelKitProArtboard-3.png","height":600,"width":60}}}
+</script>
+		<article class="author-card">
+			<a href="https://modelkitpro.com/author/gary/" alt="link to Gary Ternus author page">
+				<div class="avatar-container" style="background-image: url(&#39;https://modelkitpro.com/wp-content/uploads/2020/04/GT3.jpg&#39;)">
+				</div>
+			</a>
+			<div class="author-info">
+				<header>
+					<p class="h3"><a href="https://modelkitpro.com/author/gary/">Gary Ternus</a></p>
+				</header>
+				<p></p>
+			</div>
+		</article>
+					<h3 class="h2">Recent Posts</h3>
+			<div class="recent-articles-container">
+					<article class="article-card" itemscope="" itemtype="http://schema.org/BlogPosting">
+				<a href="https://modelkitpro.com/what-were-the-first-plastic-model-kits/" rel="nofollow"><div class="image-container" style="background-image: url(&#39;https://modelkitpro.com/wp-content/uploads/2021/07/1960s-model-kits.jpg&#39;)"></div><span class="sr-only">link to What Were The First Plastic Model Kits?</span></a>
+
+				<div class="copy-container">
+					<header>
+						<p><a itemprop="name" href="https://modelkitpro.com/what-were-the-first-plastic-model-kits/">What Were The First Plastic Model Kits?</a></p>
+					</header>
+					<div class="excerpt">
+						<p>Model kits have been around as long as I can remember. Have you ever wondered what were the first ones made and what was the intention of the builders? Who made the first kits and are they still...</p><div class="button-container"><a rel="nofollow" class="button reverse" href="https://modelkitpro.com/what-were-the-first-plastic-model-kits/" aria-label="Continue Reading: What Were The First Plastic Model Kits?">Continue Reading</a></div>					</div>
+					<!-- <div class="button-container">
+						<a rel="nofollow" class="button reverse" href="">Continue Reading</a>
+					</div> -->
+				</div>
+				<meta itemprop="thumbnailUrl" src="https://modelkitpro.com/wp-content/uploads/2021/07/1960s-model-kits.jpg"/>
+				<meta itemprop="image" src="https://modelkitpro.com/wp-content/uploads/2021/07/1960s-model-kits.jpg"/>
+								<span itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+					<meta itemprop="name" content="Model Kit Pro"/>
+				</span>
+				<meta itemprop="logo" src="https://modelkitpro.com/wp-content/uploads/2020/02/ModelKitProArtboard-3.png"/>
+				<meta itemprop="name" content="What Were The First Plastic Model Kits?"/>
+				<meta itemprop="headline" content="What Were The First Plastic Model Kits?"/>
+				<meta itemprop="author" content="Gary Ternus"/>
+				<meta itemprop="datePublished" content="2021-07-12"/>
+				<meta itemprop="dateModified" content="2021-07-12"/>
+
+			</article>
+					<article class="article-card" itemscope="" itemtype="http://schema.org/BlogPosting">
+				<a href="https://modelkitpro.com/are-there-model-kit-engines-that-run/" rel="nofollow"><div class="image-container" style="background-image: url(&#39;https://modelkitpro.com/wp-content/uploads/2021/07/V8EngineKit.jpg&#39;)"></div><span class="sr-only">link to Are There Model Kit Engines That Run?</span></a>
+
+				<div class="copy-container">
+					<header>
+						<p><a itemprop="name" href="https://modelkitpro.com/are-there-model-kit-engines-that-run/">Are There Model Kit Engines That Run?</a></p>
+					</header>
+					<div class="excerpt">
+						<p>Model kit engines are really cool to build and are a great way to learn about how engines go together and how all these parts work together. Let&#39;s take a closer look at  building these engine kits...</p><div class="button-container"><a rel="nofollow" class="button reverse" href="https://modelkitpro.com/are-there-model-kit-engines-that-run/" aria-label="Continue Reading: Are There Model Kit Engines That Run?">Continue Reading</a></div>					</div>
+					<!-- <div class="button-container">
+						<a rel="nofollow" class="button reverse" href="">Continue Reading</a>
+					</div> -->
+				</div>
+				<meta itemprop="thumbnailUrl" src="https://modelkitpro.com/wp-content/uploads/2021/07/V8EngineKit.jpg"/>
+				<meta itemprop="image" src="https://modelkitpro.com/wp-content/uploads/2021/07/V8EngineKit.jpg"/>
+								<span itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+					<meta itemprop="name" content="Model Kit Pro"/>
+				</span>
+				<meta itemprop="logo" src="https://modelkitpro.com/wp-content/uploads/2020/02/ModelKitProArtboard-3.png"/>
+				<meta itemprop="name" content="Are There Model Kit Engines That Run?"/>
+				<meta itemprop="headline" content="Are There Model Kit Engines That Run?"/>
+				<meta itemprop="author" content="Gary Ternus"/>
+				<meta itemprop="datePublished" content="2021-07-12"/>
+				<meta itemprop="dateModified" content="2021-07-12"/>
+
+			</article>
+					</div>
+				</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+<aside id="secondary" class="widget-area">
+		<div class="about-wrapper">
+		<h2 class="widget-title">About Us</h2>		<div class="about-image" style="background-image: url(&#39;https://modelkitpro.com/wp-content/uploads/2020/04/GT3.jpg&#39;)"></div>
+				<p class="about-copy">I&#39;ve been making models for years and decided it&#39;s time to level up my methods and tools and find out what works and what doesn&#39;t. I am excited to share the things I&#39;m learning.</p>
+			</div>
+		<div class="legal-info-container">
+	<h2 class="widget-title">LEGAL INFORMATION</h2>		<p>This site is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. We are compensated for referring traffic and business to Amazon and other companies linked to on this site.</p>
+	</div>
+		<div class="sidebar-ad">
+		<p><a href="https://track.flexlinkspro.com/g.ashx?foid=156279.1009071.4611686018427512834&amp;trid=1195667.192362&amp;foc=16&amp;fot=9999&amp;fos=5"><img loading="lazy" class="wp-image-2118 aligncenter" src="https://modelkitpro.com/wp-content/uploads/2021/03/Airfix_simplified_logo-800x800.png" alt="" width="248" height="248" srcset="https://modelkitpro.com/wp-content/uploads/2021/03/Airfix_simplified_logo-800x800.png 800w, https://modelkitpro.com/wp-content/uploads/2021/03/Airfix_simplified_logo-150x150.png 150w, https://modelkitpro.com/wp-content/uploads/2021/03/Airfix_simplified_logo-768x768.png 768w, https://modelkitpro.com/wp-content/uploads/2021/03/Airfix_simplified_logo.png 1000w" sizes="(max-width: 248px) 100vw, 248px"/></a></p>
+<p> </p>
+	</div>
+	</aside><!-- #secondary -->
+
+	</div><!-- #content -->
+
+	<footer id="colophon" class="site-footer">
+		<div class="inner-wrap">
+			<div class="menu-footer-container"><ul id="footer-menu" class="inner-wrap"><li id="menu-item-56" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-56"><a href="https://modelkitpro.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-55" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-55"><a href="https://modelkitpro.com/about-us/">About</a></li>
+<li id="menu-item-314" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-314"><a href="https://modelkitpro.com/sitemap/">Sitemap</a></li>
+</ul></div>			<div class="site-info">
+					© 2021 –  ModelKitPro.com			</div><!-- .site-info -->
+					</div>
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type="text/javascript" async="" defer="" src="https://modelkitpro.com/wp-content/plugins/lazy-load-for-videos/public/js/lazyload-shared.js?ver=2.16.5" id="lazyload-video-js-js"></script>
+<script type="text/javascript" id="lazyload-youtube-js-js-before">
+window.llvConfig=window.llvConfig||{};window.llvConfig.youtube={"colour":"red","buttonstyle":"youtube_button_image_red","controls":true,"loadpolicy":true,"thumbnailquality":"0","preroll":"","postroll":"","overlaytext":"","loadthumbnail":true,"cookies":false,"callback":"<!--YOUTUBE_CALLBACK-->"};
+</script>
+<script type="text/javascript" async="" defer="" src="https://modelkitpro.com/wp-content/plugins/lazy-load-for-videos/public/js/lazyload-youtube.js?ver=2.16.5" id="lazyload-youtube-js-js"></script>
+<script type="text/javascript" id="lazyload-vimeo-js-js-before">
+window.llvConfig=window.llvConfig||{};window.llvConfig.vimeo={"buttonstyle":"youtube_button_image_red","playercolour":"#00adef","preroll":"","postroll":"","show_title":false,"overlaytext":"","loadthumbnail":true,"thumbnailquality":"default","callback":"<!--VIMEO_CALLBACK-->"};
+</script>
+<script type="text/javascript" async="" defer="" src="https://modelkitpro.com/wp-content/plugins/lazy-load-for-videos/public/js/lazyload-vimeo.js?ver=2.16.5" id="lazyload-vimeo-js-js"></script>
+<script type="text/javascript" async="" defer="" src="https://modelkitpro.com/wp-content/themes/acabado/js/app.min.js?ver=1.0.10" id="income-school-js-js"></script>
+<div style="display: none"></div>
+
+
+<script type='text/javascript' style='display:none;' async>
+</script>
+
+<script type="text/javascript" data-cfasync="false"></script></body></html><!--Generated by Endurance Page Cache-->
