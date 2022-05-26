@@ -1,0 +1,35 @@
+{% load static %}
+{% load hitcount_tags %}
+<title>CoLearn</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+
+<header class="header">
+  <div class="header-text">
+    <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+  </div>
+ 
+</header>
+<section class="landing-section landing-main">
+  <div class="landing-section-content">
+    <h1 class="brand">CoLearn</h1>
+    <br>
+    <h2>
+      <span class="brand-text">Co</span>llaborative
+      <br>
+      <span class="brand-text">Learn</span>ing
+    </h2>
+      <p class="landing-main-text">
+          It is about time to enjoy studying! 
+          <br>
+          As part of a supportive community, you will feel again inspired and accountable to reach your goals. 
+          <br>
+          Together we go further!
+          <br>
+          <br>
+          <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+      </p>
+  </div>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  This CoLearn platform is created for SWE 573 course at Bogazici University
+</section>
