@@ -1,27 +1,26 @@
 # pull official base image
 FROM python:3.10.1-alpine
+LABEL maintainer="colearn.com"
 
-RUN useradd --create-home appuser
-WORKDIR /home/appuser
-USER appuser
-
-
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 
-# install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+COPY . /app
+COPY ./requirements.txt /app/requirements.txt
 
-# install dependencies
-RUN apk update && apk add tk
-RUN apk add -u zlib-dev jpeg-dev gcc musl-dev
-RUN pip install --upgrade pip
-RUN apk add libffi-dev
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+WORKDIR /app
+EXPOSE 8000
 
+RUN python -m venv /py && \
+    /py/bin/pip install --upgrade pip && \
+    apk add libffi-dev && \
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-deps \
+        build-base postgresql-dev zlib-dev jpeg-dev gcc musl-dev && \
+    /py/bin/pip install -r /requirements.txt && \
+    apk del .tmp-deps && \
+    adduser --disabled-password --no-create-home app
 
-# copy project
-COPY . .
+ENV PATH="/py/bin:$PATH"
+
+USER app
