@@ -1,0 +1,15 @@
+{% extends 'courses/course_base.html' %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+    <h1>Create a new room</h1>
+    <form action="{% url 'courses:create' %}" method="POST">
+        {% csrf_token %}
+        <fieldset class = "form-group">
+            {{ form|crispy }}
+            {{ form.media }}
+        </fieldset>
+        <br>
+        <input type="submit" value="Create" class="btn btn-success btn-lg">
+    </form>    
+{% endblock main_content %}
+    

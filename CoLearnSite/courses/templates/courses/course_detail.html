@@ -1,0 +1,123 @@
+{% extends 'courses/course_base.html' %}
+{% load hitcount_tags %} 
+{% block main_content %}
+<h1>{{course.course_name}}</h1>
+<h4>Owner: @{{course.user}}</h4>
+<p>Description: {{course.course_description|safe}}</p>
+<hr>
+
+<br>
+<hr>
+{% if user.is_authenticated %} {%if user in course.students.all%}
+<a href="{% url 'courses:unenroll' pk=course.pk %}" class="btn btn-danger btn-sm">Unenroll</a>
+{% else %}
+<a href="{% url 'courses:enroll' pk=course.pk %}" class="btn btn-success btn-sm">Enroll</a>
+{% endif %}  
+{% endif %} 
+
+{% if course.user.id == user.id or user in course.students.all%}
+
+    <a href="{% url 'post-create' %}" class="btn btn-sm btn-fill btn-secondary button-stretch">
+      <i class="fa fa-plus-circle" aria-hidden="true"> Post message</i>
+    </a>
+    <a href="{% url 'assignments:create' %}" class="btn btn-sm btn-fill btn-warning button-stretch">
+      <i class="fa fa-plus-circle" aria-hidden="true"> Create New Challenge</i>
+    </a>
+    <a href="{% url 'resources:create' %}" class="btn btn-sm btn-fill btn-info button-stretch">
+      <i class="fa fa-plus-circle" aria-hidden="true"> Create New Resource</i>
+    </a>
+
+  <br>
+  <hr>
+  <div class = "posts">
+    <h3>Posts</h3>
+    <ul class="list-group">
+      {% for post in posts %}
+      <a href="{% url 'post-detail' post.id %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ post.date_posted }}</h5>
+        </div>
+        <p class="mb-1">
+          <div>
+            <p class="article-content">{{ post.content|safe|slice:":90"}}<b>[...]</b></p>
+            <a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</small>
+          </div>
+        </p>
+      </a>
+      {% empty %}
+      <h6>No posts sent yet</h6>
+      {% endfor %}
+      <br>
+      <br>
+      {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class = "btn btn-outline-info-mb-4" href = "?page=1">First</a>
+            <a class = "btn btn-outline-info-mb-4" href = "?page={{ page_obj.previous_page_number}}">Previous</a>
+        {% endif %} 
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class = "btn btn-info-mb-4" href = "?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class = "btn btn-outline-info-mb-4" href = "?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class = "btn btn-outline-info-mb-4" href = "?page={{ page_obj.nex_page_number}}">Next</a>
+        <a class = "btn btn-outline-info-mb-4" href = "?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %} 
+    {% endif %}
+    </ul>
+  </div>  
+
+  <div class="assignments">
+    <h3>Challenges</h3>
+    <ul class="list-group">
+      {% for assignment in assignments %}
+      <a href="{% url 'assignments:detail' pk=assignment.pk %}" class="list-group-item list-group-item-action">
+        <div class="d-flex w-300 justify-content-between">
+          <h5 class="mb-1">{{assignment.assignment_name}}</h5>
+          <small>{{assignment.user}}</small>
+          <br>
+        </div>
+        <p class="mb-1">
+          {{assignment.assignment_description|safe|slice:":100"}}
+        </p>
+        <small>Due Date: {{assignment.due_date}} {{assignment.due_time}}</small>
+      </a>
+      <br>
+      {% empty %}
+      <h6>No challenges added yet.</h6>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="resources">
+    <h3>Resources</h3>
+    <ul class="list-group">
+      {% for resource in resources %}
+      <div  class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{resource.resource_name}}</h5>
+        </div>
+        <p class="mb-1">
+          Submission: {{resource.resource_file.name}}
+          <br>
+          <br>
+          <a href="{{resource.resource_file.url}}" class="btn btn-sm btn-primary" download>Download</a>
+        </p>
+        
+        {% if user.id == course.user.id %}
+          <small><a href="{% url 'resources:delete' pk=resource.pk %}" class="btn btn-sm btn-danger">Delete</a></small>
+        {% endif %}
+      </div>
+      {% empty %}
+        <h6>No resources added yet</h6>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+  
+
+{% endblock main_content %}
