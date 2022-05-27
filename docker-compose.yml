@@ -14,7 +14,7 @@ services:
       - DB_NAME=${DB_DATABASE}
       - DB_USER=${DB_USER}
       - DB_PASS=${DB_PASSWORD}
-      - DJANGO_ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
     ports:
       - "80:8000"
     volumes:
